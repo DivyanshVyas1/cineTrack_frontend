@@ -1,0 +1,252 @@
+/* Mobile-first layout overrides — loaded after cinematic.css */
+
+/* Feed: spacing and header wrap */
+.feed-stack {
+  gap: 1.25rem;
+}
+
+.feed-post {
+  margin-bottom: 0;
+}
+
+.feed-post-header {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.feed-header-actions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  .feed-post-header {
+    /* Keep it as a row, don't force wrap the actions! */
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  .feed-header-actions {
+    /* Don't force 100% width, just let it sit on the right */
+    width: auto;
+    margin-left: auto;
+  }
+
+  .feed-post-footer {
+    /* Let footer contents wrap naturally rather than forcing a column */
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+}
+
+/* Three-column home layout */
+@media (max-width: 1024px) {
+  .three-col {
+    grid-template-columns: 1fr;
+  }
+
+  .three-col > .sidebar-card,
+  .three-col > .panel-stack,
+  .three-col > .left-sidebar-stack {
+    position: static;
+    top: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .three-col .left-sidebar-stack,
+  .three-col > .sidebar-card:first-child {
+    order: 1;
+  }
+
+  .three-col .feed-stack {
+    order: 2;
+  }
+
+  .three-col .panel-stack {
+    order: 3;
+  }
+}
+
+@media (max-width: 640px) {
+  .three-col .panel-stack {
+    display: none;
+  }
+}
+
+/* App shell & navbar */
+@media (max-width: 768px) {
+  .app-shell {
+    padding: 0.5rem 0.65rem 1.5rem 0.65rem;
+  }
+
+  .navbar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+  }
+
+  .brand-link {
+    order: 1;
+    flex-shrink: 0;
+  }
+
+  .navbar-auth {
+    order: 2;
+    width: auto;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .navbar-main {
+    order: 3;
+    width: 100%;
+    justify-content: space-around;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .navbar-main::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Navbar profile link — no focus box */
+.navbar-user-link,
+.navbar-user-link:focus,
+.navbar-user-link:focus-visible,
+.navbar-user-link:active {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.navbar-main a:focus,
+.navbar-main a:focus-visible,
+.navbar-auth a:focus,
+.navbar-auth a:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Post page forms */
+@media (max-width: 900px) {
+  .post-forms-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.post-form-cell {
+  position: relative;
+  min-width: 0;
+}
+
+.post-form-cell:focus-within {
+  z-index: 5;
+}
+
+/* Profile page */
+@media (max-width: 900px) {
+  .profile-hero-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .profile-hero-actions,
+  .profile-owner-actions {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .profile-hero-actions .btn-ghost,
+  .profile-hero-actions .follow-btn,
+  .profile-owner-actions .edit-profile-btn {
+    flex: 1;
+    min-width: calc(50% - 0.5rem);
+    justify-content: center;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .profile-tabs,
+  .profile-tabs-animated {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.25rem;
+  }
+
+  .profile-tabs::-webkit-scrollbar,
+  .profile-tabs-animated::-webkit-scrollbar {
+    display: none;
+  }
+
+  .profile-stats-bar {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .profile-stat-cell {
+    border-right: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.1));
+    border-bottom: none;
+    min-height: auto;
+    padding: 0.75rem 0.25rem;
+  }
+
+  .profile-stat-cell:last-child {
+    border-right: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .profile-hero-inner {
+    padding: 1rem;
+  }
+
+  .profile-identity {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-title-row {
+    justify-content: center;
+  }
+}
+
+/* Discover & misc overflow guards */
+.discover-page,
+.post-page,
+.profile-page,
+.page-stack {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.glass-card,
+.feed-card,
+.panel,
+.page-card {
+  max-width: 100%;
+}

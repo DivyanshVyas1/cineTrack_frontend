@@ -1,0 +1,15 @@
+/* CineTrack design tokens — profile & UI accents */
+:root {
+  --accent-primary: #c4b5fd;
+  --accent-primary-muted: rgba(196, 181, 253, 0.35);
+  --accent-warm: #fbbf24;
+
+  --surface-elevated: #10101a;
+  --surface-muted: #050509;
+  --avatar-bg: #1a1a24;
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-accent: rgba(196, 181, 253, 0.22);
+  --profile-bar-track: rgba(255, 255, 255, 0.08);
+  --profile-bar-fill: linear-gradient(90deg, rgba(255, 77, 157, 0.75), rgba(147, 112, 219, 0.85));
+}
