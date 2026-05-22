@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import TasteMatchSuggestions from "../feed/TasteMatchSuggestions";
 import { FILTERS } from "./MediaFilter";
@@ -10,6 +11,7 @@ function LeftSidebar({
   tasteSuggestions = [],
 }) {
   const { user, isAuthenticated } = useAuth();
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   if (!isAuthenticated || !user?.username) {
     return (
@@ -22,29 +24,40 @@ function LeftSidebar({
   return (
     <div className="left-sidebar-stack">
       <aside className="glass-card panel sidebar-card sidebar-filters-card">
-        <h4 className="sidebar-section-heading">Filters</h4>
+        <div 
+          className="sidebar-mobile-toggle" 
+          onClick={() => setFiltersOpen(!filtersOpen)}
+        >
+          <h4 className="sidebar-section-heading">Filters</h4>
+          <span className="mobile-toggle-icon">{filtersOpen ? "▲" : "▼"}</span>
+        </div>
 
-        <nav className="sidebar-nav sidebar-feed-filters" aria-label="Filter feed by type">
-          {FILTERS.map((f) => (
-            <button
-              key={f.id}
-              type="button"
-              className={mediaFilter === f.id ? "active" : ""}
-              onClick={() => onMediaFilterChange?.(f.id)}
-            >
-              {f.label}
-            </button>
-          ))}
-        </nav>
+        <div className={`sidebar-collapsible ${filtersOpen ? "open" : ""}`}>
+          <nav className="sidebar-nav sidebar-feed-filters" aria-label="Filter feed by type">
+            {FILTERS.map((f) => (
+              <button
+                key={f.id}
+                type="button"
+                className={mediaFilter === f.id ? "active" : ""}
+                onClick={() => {
+                  onMediaFilterChange?.(f.id);
+                  setFiltersOpen(false); // Auto close on mobile after selection
+                }}
+              >
+                {f.label}
+              </button>
+            ))}
+          </nav>
 
-        <label className="spoiler-filter-check sidebar-spoiler-check">
-          <input
-            type="checkbox"
-            checked={hideSpoilers}
-            onChange={(e) => onHideSpoilersChange?.(e.target.checked)}
-          />
-          <span>Hide spoilers</span>
-        </label>
+          <label className="spoiler-filter-check sidebar-spoiler-check">
+            <input
+              type="checkbox"
+              checked={hideSpoilers}
+              onChange={(e) => onHideSpoilersChange?.(e.target.checked)}
+            />
+            <span>Hide spoilers</span>
+          </label>
+        </div>
       </aside>
 
       <aside className="glass-card panel sidebar-taste-card">

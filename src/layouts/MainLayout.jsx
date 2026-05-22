@@ -57,6 +57,13 @@ function MainLayout() {
       <main>
         <Outlet />
       </main>
+      <footer className="app-footer glass-card">
+        <div className="footer-content">
+          <p>
+            <a href="mailto:peepal.team@gmail.com">peepal.team@gmail.com</a>
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

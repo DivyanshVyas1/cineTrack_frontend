@@ -32,6 +32,12 @@ body {
 .app-shell {
   min-height: 100vh;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
 }
 .navbar {
   display: flex;

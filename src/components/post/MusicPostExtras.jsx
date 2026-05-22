@@ -67,11 +67,44 @@ function MusicPostExtras({ post, variant = "feed", showTitle = false, linkTitle 
         </div>
       </div>
 
-      {previewUrl ? (
-        <div className="music-post-player-card">
-          <MusicAudioPlayer src={previewUrl} durationSeconds={duration} />
-        </div>
-      ) : null}
+      <div style={{ display: "flex", alignItems: "center", gap: "0.8rem", marginTop: "1rem" }}>
+        {previewUrl ? (
+          <div className="music-post-player-card" style={{ flexGrow: 1, margin: 0 }}>
+            <MusicAudioPlayer src={previewUrl} durationSeconds={duration} />
+          </div>
+        ) : (
+          <div style={{ flexGrow: 1 }} />
+        )}
+        <a
+          href={`https://open.spotify.com/search/${encodeURIComponent(`${title || ""} ${artist || ""}`.trim())}/tracks`}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Open in Spotify"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "44px",
+            height: "44px",
+            borderRadius: "50%",
+            backgroundColor: "rgba(255, 255, 255, 0.05)",
+            border: "1px solid rgba(255, 255, 255, 0.1)",
+            flexShrink: 0,
+            transition: "all 0.2s ease",
+            cursor: "pointer"
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.transform = "scale(1.05)";
+            e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.transform = "scale(1)";
+            e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+          }}
+        >
+          <img src="/spotify.png" alt="Spotify" style={{ width: "22px", height: "22px", objectFit: "contain" }} />
+        </a>
+      </div>
     </div>
   );
 }

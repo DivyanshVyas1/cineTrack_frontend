@@ -12,6 +12,7 @@ import AdminDashboardPage from "./pages/AdminDashboardPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminRoute from "./components/auth/AdminRoute";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/profile/:username" element={<ProfilePage />} />
           <Route path="/movies/:id" element={<MovieDetailsPage />} />
           <Route path="/title" element={<TitleDetailsPage />} />
+          <Route path="/about" element={<AboutPage />} />
         </Route>
         <Route
           path="/admin"

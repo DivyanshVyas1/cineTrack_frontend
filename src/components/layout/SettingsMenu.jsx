@@ -67,6 +67,11 @@ function SettingsMenu() {
     navigate("/login");
   };
 
+  const handleAbout = () => {
+    setOpen(false);
+    navigate("/about");
+  };
+
   const dropdown = open ? (
     <div
       ref={menuRef}
@@ -88,6 +93,10 @@ function SettingsMenu() {
           ? "Only you can see your collections. Feed posts stay hidden from others."
           : "Your public posts appear in the community feed."}
       </p>
+      <div className="settings-divider" />
+      <button type="button" className="settings-logout" style={{ background: 'var(--primary-color)', color: 'white', marginBottom: '8px' }} onClick={handleAbout}>
+        ℹ️ About CineTrack
+      </button>
       <button type="button" className="settings-logout" onClick={handleLogout}>
         Sign out
       </button>

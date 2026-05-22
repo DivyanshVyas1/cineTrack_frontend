@@ -56,7 +56,11 @@ function ProfileSectionContent({ data, section, tab, isOwner, onRefresh }) {
             )}
           </p>
         ) : (
-          items.map((entry, i) => <ListItemCard key={entry._id} movie={entry.movie} index={i} />)
+          items.map((entry, i) => (
+            <AnimatedItem key={entry._id} index={i}>
+              <PostCard post={entry} hideActions={true} isWatchlist={true} />
+            </AnimatedItem>
+          ))
         )}
       </div>
     );
@@ -73,7 +77,11 @@ function ProfileSectionContent({ data, section, tab, isOwner, onRefresh }) {
               : "No favourites in this category."}
           </p>
         ) : (
-          listItems.map((entry, i) => <ListItemCard key={entry._id} movie={entry.movie} index={i} />)
+          listItems.map((entry, i) => (
+            <AnimatedItem key={entry._id} index={i}>
+              <PostCard post={entry} canEdit={isOwner} onChanged={onRefresh} />
+            </AnimatedItem>
+          ))
         )}
       </div>
     );

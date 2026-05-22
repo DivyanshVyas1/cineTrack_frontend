@@ -42,7 +42,7 @@ function CharacterSearchField({
   }, [query, selected]);
 
   const pick = (item) => {
-    const next = { name: item.title, source: item.source || "wikidata" };
+    const next = { name: item.title, source: item.overview || item.source || "" };
     setSelected(next);
     setQuery(item.title);
     setSuggestions([]);
