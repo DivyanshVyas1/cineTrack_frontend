@@ -16,6 +16,8 @@ function ProfileAddForm({
 }) {
   const [mediaType, setMediaType] = useState(defaultMediaType);
   const [selection, setSelection] = useState(null);
+  const [addedItems, setAddedItems] = useState([]);
+  const [searchKey, setSearchKey] = useState(0);
   const [rating, setRating] = useState(8);
   const [note, setNote] = useState("");
   const [isSpoiler, setIsSpoiler] = useState(false);
@@ -25,6 +27,8 @@ function ProfileAddForm({
   useEffect(() => {
     setMediaType(defaultMediaType);
     setSelection(null);
+    setAddedItems([]);
+    setSearchKey((k) => k + 1);
   }, [defaultMediaType]);
 
   const isWatchlist = mode === "watchlist";
@@ -35,7 +39,7 @@ function ProfileAddForm({
     return type;
   };
 
-  const buildPostPayload = (item) => ({
+  const buildPostPayload = (item, r, n, s) => ({
     type: item.type || mediaType,
     title: item.title,
     externalId: item.externalId || "",
@@ -46,9 +50,9 @@ function ProfileAddForm({
     youtubeVideoId: item.videoId || item.youtubeVideoId || item.externalId || "",
     youtubeUrl: item.youtubeUrl || "",
     duration: Number(item.duration) || 0,
-    rating: Number(rating),
-    note,
-    isSpoiler: isMusic ? false : isSpoiler,
+    rating: Number(r),
+    note: n,
+    isSpoiler: isMusic ? false : s,
     visibility: "public",
   });
 
@@ -58,23 +62,28 @@ function ProfileAddForm({
     try {
       let movieId = existingMovie?._id;
 
+      const itemsToSubmit = [...addedItems];
+      if (selection) itemsToSubmit.push({ selection, rating, note, isSpoiler, markFavorite });
+
       if (!movieId && isWatchlist) {
-        if (!selection?.title?.trim()) {
+        if (itemsToSubmit.length === 0) {
           toast.error("Search and select a title from suggestions");
           setSubmitting(false);
           return;
         }
-        const created = await createMovie({
-          title: selection.title,
-          type: mapListType(selection.type || mediaType),
-          overview: selection.artistName || selection.overview || "",
-          poster: selection.poster || "",
-          genres: isMusic ? [] : selection.genres || [],
-          releaseDate: selection.releaseDate || undefined,
-        });
-        movieId = created._id;
-        await addToList(movieId, "watchlist");
-        toast.success("Added to watchlist");
+        for (const itemObj of itemsToSubmit) {
+          const item = itemObj.selection;
+          const created = await createMovie({
+            title: item.title,
+            type: mapListType(item.type || mediaType),
+            overview: item.artistName || item.overview || "",
+            poster: item.poster || "",
+            genres: isMusic ? [] : item.genres || [],
+            releaseDate: item.releaseDate || undefined,
+          });
+          await addToList(created._id, "watchlist");
+        }
+        toast.success(itemsToSubmit.length > 1 ? `Added ${itemsToSubmit.length} items to watchlist` : "Added to watchlist");
       } else if (existingMovie) {
         const postType =
           existingMovie.type === "show" ? "series" : existingMovie.type === "series" ? "series" : existingMovie.type;
@@ -89,32 +98,45 @@ function ProfileAddForm({
             duration: existingMovie.duration || 0,
             previewUrl: existingMovie.previewUrl || "",
             youtubeVideoId: existingMovie.youtubeVideoId || existingMovie.externalId || "",
-          })
+          }, rating, note, isSpoiler)
         );
         if (markFavorite) {
           await addToList(existingMovie._id, "favorite");
         }
         toast.success(markFavorite ? "Posted and added to favourites" : "Review published");
       } else if (!movieId) {
-        if (!selection?.title?.trim()) {
+        if (itemsToSubmit.length === 0) {
           toast.error("Search and select a title from suggestions");
           setSubmitting(false);
           return;
         }
-        await createPost(buildPostPayload(selection));
-        if (markFavorite && !isMusic) {
-          const fav = await createMovie({
-            title: selection.title,
-            type: mapListType(selection.type || mediaType),
-            poster: selection.poster || "",
-            genres: selection.genres || [],
-          });
-          await addToList(fav._id, "favorite");
+        for (const itemObj of itemsToSubmit) {
+          const item = itemObj.selection;
+          await createPost(buildPostPayload(item, itemObj.rating, itemObj.note, itemObj.isSpoiler));
+          if (itemObj.markFavorite && !isMusic) {
+            const fav = await createMovie({
+              title: item.title,
+              type: mapListType(item.type || mediaType),
+              poster: item.poster || "",
+              genres: item.genres || [],
+            });
+            await addToList(fav._id, "favorite");
+          }
         }
-        toast.success(markFavorite ? "Posted and added to favorites" : "Post published");
+        toast.success(
+          markFavorite
+            ? itemsToSubmit.length > 1
+              ? `Posted and added ${itemsToSubmit.length} items to favorites`
+              : "Posted and added to favorites"
+            : itemsToSubmit.length > 1
+              ? `Published ${itemsToSubmit.length} posts`
+              : "Post published"
+        );
       }
 
       setSelection(null);
+      setAddedItems([]);
+      setSearchKey((k) => k + 1);
       setNote("");
       setRating(8);
       setIsSpoiler(false);
@@ -134,7 +156,30 @@ function ProfileAddForm({
       {existingMovie ? (
         <p className="composer-selected">Reviewing: {existingMovie.title}</p>
       ) : (
-        <TitleSearchField mediaType={mediaType} onSelect={setSelection} disabled={submitting} />
+        <>
+          {addedItems.length > 0 && (
+            <div className="added-items-list" style={{ marginBottom: "1rem" }}>
+              {addedItems.map((itemObj, idx) => (
+                <div
+                  key={idx}
+                  className="composer-selected"
+                  style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}
+                >
+                  <span>{itemObj.selection.title} {!isWatchlist && mode === "log" ? `(★ ${itemObj.rating})` : ""}</span>
+                  <button
+                    type="button"
+                    onClick={() => setAddedItems((prev) => prev.filter((_, i) => i !== idx))}
+                    className="btn-ghost"
+                    style={{ fontSize: "0.8rem", padding: "0.2rem 0.5rem" }}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          <TitleSearchField key={searchKey} mediaType={mediaType} onSelect={setSelection} disabled={submitting} />
+        </>
       )}
 
       {!isWatchlist && mode === "log" ? (
@@ -167,9 +212,34 @@ function ProfileAddForm({
         </>
       ) : null}
 
-      <button type="submit" className="btn-primary" disabled={submitting || (!existingMovie && !selection)}>
-        {submitting ? "Saving..." : isWatchlist ? "Add to watchlist" : "Publish post"}
-      </button>
+      <div style={{ display: "flex", gap: "1rem" }}>
+        {selection && !existingMovie && (
+          <button
+            type="button"
+            className="btn-ghost"
+            style={{ flex: 1 }}
+            onClick={() => {
+              setAddedItems((prev) => [...prev, { selection, rating, note, isSpoiler, markFavorite }]);
+              setSelection(null);
+              setSearchKey((k) => k + 1);
+              setNote("");
+              setRating(8);
+              setIsSpoiler(false);
+              setMarkFavorite(false);
+            }}
+          >
+            + Add another {defaultMediaType === "series" ? "show" : defaultMediaType}
+          </button>
+        )}
+        <button
+          type="submit"
+          className="btn-primary"
+          style={{ flex: 1 }}
+          disabled={submitting || (!existingMovie && !selection && addedItems.length === 0)}
+        >
+          {submitting ? "Saving..." : isWatchlist ? "Add to watchlist" : "Publish post"}
+        </button>
+      </div>
     </form>
   );
 }
