@@ -64,7 +64,7 @@ const AboutPage = () => {
           <motion.div className="feature-card glass-card" variants={itemVariants}>
             <div className="feature-icon">🎭</div>
             <h3>Character Spotlights</h3>
-            <p>Showcase your all-time favorite characters, or highlight the "Pure Gaandu" characters you absolutely despise.</p>
+            <p>Showcase your all-time favorite characters, or highlight the "Most Disgusting" characters you absolutely despise.</p>
           </motion.div>
 
           <motion.div className="feature-card glass-card" variants={itemVariants}>

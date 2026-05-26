@@ -299,3 +299,14 @@ main {
     justify-content: flex-end;
   }
 }
+
+.profile-posts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 768px) {
+  .profile-posts-grid {
+    grid-template-columns: 1fr;
+  }
+}

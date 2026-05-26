@@ -178,7 +178,13 @@ function ProfileAddForm({
               ))}
             </div>
           )}
-          <TitleSearchField key={searchKey} mediaType={mediaType} onSelect={setSelection} disabled={submitting} />
+          <TitleSearchField 
+            key={searchKey} 
+            mediaType={mediaType} 
+            onSelect={setSelection} 
+            disabled={submitting} 
+            required={addedItems.length === 0} 
+          />
         </>
       )}
 

@@ -145,7 +145,7 @@ function ProfileHero({
 
         <CharacterSection label="Favorite characters" characters={favoriteCharacters} variant="favorite" />
         <CharacterSection
-          label="Pure gaandu characters"
+          label="Most disgusting characters"
           characters={ganduCharacters}
           variant="gandu"
         />

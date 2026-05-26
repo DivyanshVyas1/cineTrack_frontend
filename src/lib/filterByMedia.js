@@ -15,5 +15,13 @@ export const filterFeedPosts = (posts, filter, { hideSpoilers = false } = {}) =>
 export const filterTrending = (entries, filter) =>
   entries.filter((entry) => matchesMediaFilter(entry, filter));
 
-export const filterFounderSuggestions = (entries, filter) =>
-  entries.filter((entry) => matchesMediaFilter(entry, filter));
+export const filterFounderSuggestions = (data, filter) => {
+  if (Array.isArray(data)) return data.filter((entry) => matchesMediaFilter(entry, filter));
+  if (data && data.items) {
+    return {
+      matchedGenre: data.matchedGenre,
+      items: data.items.filter((entry) => matchesMediaFilter(entry, filter))
+    };
+  }
+  return { matchedGenre: null, items: [] };
+};

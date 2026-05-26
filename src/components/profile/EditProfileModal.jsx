@@ -158,7 +158,7 @@ function EditProfileModal({ open, onClose, profile, onSaved }) {
             </section>
 
             <section className="edit-characters-group edit-characters-gandu">
-              <h4 className="edit-characters-heading">Pure gaandu characters</h4>
+              <h4 className="edit-characters-heading">Most disgusting characters</h4>
               <div className="edit-character-slots">
                 {gandu.map((c, i) => (
                   <div key={`gandu-${i}`} className="edit-character-slot">

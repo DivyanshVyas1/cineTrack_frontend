@@ -13,7 +13,7 @@ export const getHomeFeed = async (isAuthenticated = false) => {
   const results = await Promise.all(requests);
   return {
     feed: results[0].data.data || [],
-    founderSuggestions: results[1].data.data || [],
+    founderSuggestions: results[1].data.data || { matchedGenre: null, items: [] },
     trendingWeek: results[2].data.data || [],
     tasteSuggestions: isAuthenticated ? results[3] || [] : [],
   };

@@ -56,11 +56,13 @@ function ProfileSectionContent({ data, section, tab, isOwner, onRefresh }) {
             )}
           </p>
         ) : (
-          items.map((entry, i) => (
-            <AnimatedItem key={entry._id} index={i}>
-              <PostCard post={entry} hideActions={true} isWatchlist={true} />
-            </AnimatedItem>
-          ))
+          <div className="profile-posts-grid">
+            {items.map((entry, i) => (
+              <AnimatedItem key={entry._id} index={i}>
+                <PostCard post={entry} hideActions={true} isWatchlist={true} />
+              </AnimatedItem>
+            ))}
+          </div>
         )}
       </div>
     );
@@ -77,11 +79,13 @@ function ProfileSectionContent({ data, section, tab, isOwner, onRefresh }) {
               : "No favourites in this category."}
           </p>
         ) : (
-          listItems.map((entry, i) => (
-            <AnimatedItem key={entry._id} index={i}>
-              <PostCard post={entry} canEdit={isOwner} onChanged={onRefresh} />
-            </AnimatedItem>
-          ))
+          <div className="profile-posts-grid">
+            {listItems.map((entry, i) => (
+              <AnimatedItem key={entry._id} index={i}>
+                <PostCard post={entry} canEdit={isOwner} onChanged={onRefresh} />
+              </AnimatedItem>
+            ))}
+          </div>
         )}
       </div>
     );
@@ -110,11 +114,13 @@ function ProfileSectionContent({ data, section, tab, isOwner, onRefresh }) {
           )}
         </p>
       ) : (
-        posts.map((p, i) => (
-          <AnimatedItem key={p._id} index={i}>
-            <PostCard post={p} canEdit={isOwner} onChanged={onRefresh} />
-          </AnimatedItem>
-        ))
+        <div className="profile-posts-grid">
+          {posts.map((p, i) => (
+            <AnimatedItem key={p._id} index={i}>
+              <PostCard post={p} canEdit={isOwner} onChanged={onRefresh} />
+            </AnimatedItem>
+          ))}
+        </div>
       )}
     </div>
   );
