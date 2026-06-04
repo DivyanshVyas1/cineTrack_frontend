@@ -7,17 +7,12 @@ function CharacterSection({ label, characters = [], variant = "favorite" }) {
       aria-label={label}
     >
       <h4 className="profile-block-label profile-characters-heading">{label}</h4>
-      <div className="character-chips-grid">
+      <div className="character-chips-grid" style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem" }}>
         {characters.map((c, i) => (
-          <div key={`${c.name}-${i}`} className={`character-chip character-chip-${variant}`}>
-            <span className="character-chip-name" title={c.name}>
+          <div key={`${c.name}-${i}`} className={`character-chip character-chip-${variant}`} style={{ width: "auto", flex: "0 0 auto", margin: 0, display: "inline-flex", alignItems: "center", padding: "0.4rem 0.8rem", borderRadius: "8px" }}>
+            <span className="character-chip-name" title={c.name} style={{ margin: 0, lineHeight: 1 }}>
               {c.name}
             </span>
-            {c.source ? (
-              <span className="character-chip-source" title={c.source}>
-                {c.source}
-              </span>
-            ) : null}
           </div>
         ))}
       </div>

@@ -11,19 +11,14 @@ import { followUser, unfollowUser, cancelFollowRequest } from "../../services/so
 
 
 function FollowButton({
-
   username,
-
   initialFollowing = false,
-
   initialRequestPending = false,
-
   isPrivateTarget = false,
-
   onChange,
-
   compact = false,
-
+  style,
+  className,
 }) {
 
   const { isAuthenticated, user } = useAuth();
@@ -142,7 +137,7 @@ function FollowButton({
 
   return (
 
-    <button type="button" className={btnClass} onClick={toggle} disabled={loading}>
+    <button type="button" className={`${btnClass} ${className || ""}`.trim()} style={style} onClick={toggle} disabled={loading}>
 
       {loading ? "..." : label}
 

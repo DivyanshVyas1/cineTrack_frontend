@@ -4,6 +4,7 @@ import { profileListItemVariants, profilePanelTransition } from "../../lib/motio
 import { buildTitleLink } from "../../lib/titleLink";
 import GenreBreakdown from "./GenreBreakdown";
 import PostCard from "./PostCard";
+import FeedPost from "../feed/FeedPost";
 
 function AnimatedItem({ children, index = 0 }) {
   return (
@@ -38,11 +39,24 @@ const SECTION_GENRE_TITLES = {
   books: "Book genre mix",
 };
 
-function ProfileSectionContent({ data, section, tab, isOwner, onRefresh }) {
+function ProfileSectionContent({ data, section, tab, isOwner, profileUser, onRefresh, sortOrder = "desc" }) {
   if (!data) return null;
 
+  const sortItems = (items) => {
+    return [...items].sort((a, b) => {
+      if (sortOrder === "newest" || sortOrder === "oldest") {
+        const dateA = new Date(a.watchedOn || a.createdAt || 0).getTime();
+        const dateB = new Date(b.watchedOn || b.createdAt || 0).getTime();
+        return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
+      }
+      const ratingA = a.rating || 0;
+      const ratingB = b.rating || 0;
+      return sortOrder === "asc" ? ratingA - ratingB : ratingB - ratingA;
+    });
+  };
+
   if (section === "watchlist") {
-    const items = data.items || [];
+    const items = sortItems(data.items || []);
     return (
       <div className="profile-section-body">
         {items.length === 0 ? (
@@ -56,10 +70,14 @@ function ProfileSectionContent({ data, section, tab, isOwner, onRefresh }) {
             )}
           </p>
         ) : (
-          <div className="profile-posts-grid">
+          <div className={tab === "music" ? "profile-posts-column" : "profile-posts-grid"} style={tab === "music" ? { display: "flex", flexDirection: "column", gap: "1.5rem" } : {}}>
             {items.map((entry, i) => (
               <AnimatedItem key={entry._id} index={i}>
-                <PostCard post={entry} hideActions={true} isWatchlist={true} />
+                {tab === "music" ? (
+                  <FeedPost post={{...entry, user: entry.user || profileUser, isOwnPost: isOwner}} onChanged={onRefresh} />
+                ) : (
+                  <PostCard post={entry} hideActions={true} isWatchlist={true} />
+                )}
               </AnimatedItem>
             ))}
           </div>
@@ -69,7 +87,7 @@ function ProfileSectionContent({ data, section, tab, isOwner, onRefresh }) {
   }
 
   if (section === "favorites") {
-    const listItems = data.items || [];
+    const listItems = sortItems(data.items || []);
     return (
       <div className="profile-section-body">
         {listItems.length === 0 ? (
@@ -79,10 +97,14 @@ function ProfileSectionContent({ data, section, tab, isOwner, onRefresh }) {
               : "No favourites in this category."}
           </p>
         ) : (
-          <div className="profile-posts-grid">
+          <div className={tab === "music" ? "profile-posts-column" : "profile-posts-grid"} style={tab === "music" ? { display: "flex", flexDirection: "column", gap: "1.5rem" } : {}}>
             {listItems.map((entry, i) => (
               <AnimatedItem key={entry._id} index={i}>
-                <PostCard post={entry} canEdit={isOwner} onChanged={onRefresh} />
+                {tab === "music" ? (
+                  <FeedPost post={{...entry, user: entry.user || profileUser, isOwnPost: isOwner}} onChanged={onRefresh} />
+                ) : (
+                  <PostCard post={entry} canEdit={isOwner} onChanged={onRefresh} />
+                )}
               </AnimatedItem>
             ))}
           </div>
@@ -91,17 +113,10 @@ function ProfileSectionContent({ data, section, tab, isOwner, onRefresh }) {
     );
   }
 
-  const posts = data.items || [];
-  const isMusicTab = tab === "music";
-  const genreTitle = SECTION_GENRE_TITLES[tab] || "Genre mix";
+  const posts = sortItems(data.items || []);
 
   return (
     <div className="profile-section-body">
-      {isMusicTab ? (
-        <p className="sidebar-muted music-no-genres-note">Music posts have no genre breakdown.</p>
-      ) : (
-        <GenreBreakdown stats={data.genreStats} title={genreTitle} />
-      )}
 
       {posts.length === 0 ? (
         <p className="sidebar-muted">
@@ -114,10 +129,14 @@ function ProfileSectionContent({ data, section, tab, isOwner, onRefresh }) {
           )}
         </p>
       ) : (
-        <div className="profile-posts-grid">
+        <div className={tab === "music" ? "profile-posts-column" : "profile-posts-grid"} style={tab === "music" ? { display: "flex", flexDirection: "column", gap: "1.5rem" } : {}}>
           {posts.map((p, i) => (
             <AnimatedItem key={p._id} index={i}>
-              <PostCard post={p} canEdit={isOwner} onChanged={onRefresh} />
+              {tab === "music" ? (
+                <FeedPost post={{...p, user: p.user || profileUser, isOwnPost: isOwner}} onChanged={onRefresh} />
+              ) : (
+                <PostCard post={p} canEdit={isOwner} onChanged={onRefresh} />
+              )}
             </AnimatedItem>
           ))}
         </div>

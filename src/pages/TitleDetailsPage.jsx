@@ -21,11 +21,12 @@ function TitleDetailsPage() {
   const [stats, setStats] = useState({ count: 0, average: null });
   const [loading, setLoading] = useState(true);
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (isRefresh = false) => {
     if (!title.trim()) {
       setLoading(false);
       return;
     }
+    if (!isRefresh) setLoading(true);
     try {
       const data = await fetchTitleDetail({ type, title, externalId });
       setInfo(data.title);
@@ -33,7 +34,7 @@ function TitleDetailsPage() {
       setStats(data.stats || { count: 0, average: null });
     } catch (err) {
       toast.error(err.response?.data?.message || "Title not found");
-      setInfo(null);
+      if (!isRefresh) setInfo(null);
     } finally {
       setLoading(false);
     }
@@ -67,6 +68,8 @@ function TitleDetailsPage() {
     overview: info.artistName || "",
     artistName: info.artistName,
     duration: info.duration,
+    previewUrl: info.previewUrl || "",
+    youtubeVideoId: info.youtubeVideoId || "",
     genres: info.genres || [],
   };
 
@@ -87,16 +90,64 @@ function TitleDetailsPage() {
             <div className="movie-poster glass-card movie-poster-fallback">{info.title?.charAt(0)}</div>
           )}
           <div>
-            <Badge variant="pink">{info.type}</Badge>
-            <h1>{info.title}</h1>
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "0.5rem", flexWrap: "wrap" }}>
+              <Badge variant="pink" style={{ textTransform: "capitalize" }}>{info.type}</Badge>
+              {info.genres && info.genres.length > 0 ? (
+                <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                  {info.genres.map(g => (
+                    <span key={g} style={{ border: "1px solid var(--border)", padding: "0.1rem 0.6rem", borderRadius: "12px", fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "capitalize" }}>
+                      {g}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+            <h1 style={{ marginTop: 0 }}>{info.title}</h1>
             {isMusic && info.artistName ? <p className="title-page-artist">{info.artistName}</p> : null}
-            {!isMusic ? <p>{info.overview || "No synopsis yet."}</p> : null}
-            {isMusic && previewUrl ? (
-              <div className="title-page-player">
-                <MusicAudioPlayer src={previewUrl} durationSeconds={info.duration} />
+            {!isMusic && info.overview ? <p>{info.overview}</p> : null}
+            
+            {isMusic && (
+              <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginTop: "1rem" }}>
+                {previewUrl ? (
+                  <div className="title-page-player" style={{ flexGrow: 1, margin: 0 }}>
+                    <MusicAudioPlayer src={previewUrl} durationSeconds={info.duration} />
+                  </div>
+                ) : (
+                  <div style={{ flexGrow: 1 }} />
+                )}
+                <a
+                  href={`https://open.spotify.com/search/${encodeURIComponent(`${info.title || ""} ${info.artistName || ""}`.trim())}/tracks`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Open in Spotify"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "48px",
+                    height: "48px",
+                    borderRadius: "50%",
+                    backgroundColor: "rgba(255, 255, 255, 0.05)",
+                    border: "1px solid rgba(255, 255, 255, 0.1)",
+                    flexShrink: 0,
+                    transition: "all 0.2s ease",
+                    cursor: "pointer"
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = "scale(1.05)";
+                    e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = "scale(1)";
+                    e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+                  }}
+                >
+                  <img src="/spotify.png" alt="Spotify" style={{ width: "24px", height: "24px", objectFit: "contain" }} />
+                </a>
               </div>
-            ) : null}
-            <div className="movie-meta">
+            )}
+            
+            <div className="movie-meta" style={{ marginTop: "1rem" }}>
               <span>Cinescore {avg}/10</span>
               <span>{stats.count} community reviews</span>
             </div>
@@ -112,13 +163,13 @@ function TitleDetailsPage() {
               defaultMediaType={postType === "show" ? "series" : postType}
               mode="log"
               heading={getRateHeading(info.type)}
-              onPosted={load}
+              onPosted={() => load(true)}
             />
           ) : null}
 
           {isAuthenticated && hasUserReview ? (
             <div className="glass-card panel your-review-banner">
-              <h3>Your review</h3>
+              <h3>Your Review</h3>
               <ReviewCard review={userReview} showAuthor={false} />
             </div>
           ) : null}
@@ -129,7 +180,7 @@ function TitleDetailsPage() {
             </p>
           ) : null}
 
-          <h3>Community reviews</h3>
+          <h3>Community Reviews</h3>
           {communityReviews.length === 0 ? (
             <p className="sidebar-muted">
               No public reviews yet. Reviews from private profiles appear after you follow them.

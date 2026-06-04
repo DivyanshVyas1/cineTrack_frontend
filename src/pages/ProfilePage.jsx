@@ -32,6 +32,7 @@ function ProfilePage() {
   const [followListType, setFollowListType] = useState(null);
   const [requestsOpen, setRequestsOpen] = useState(false);
   const [followRequestCount, setFollowRequestCount] = useState(0);
+  const [sortOrder, setSortOrder] = useState("newest");
 
   const isOwner = currentUser?.username === username;
   const canViewContent = isOwner || profileData?.canViewContent !== false;
@@ -172,7 +173,21 @@ function ProfilePage() {
           />
 
           <ProfileTabNav items={PROFILE_TABS} activeId={tab} onChange={setTab} variant="main" />
-          <ProfileTabNav items={PROFILE_SECTIONS} activeId={section} onChange={setSection} variant="sub" />
+          
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "nowrap", overflowX: "auto", gap: "1rem", marginBottom: "1rem", paddingBottom: "4px" }}>
+            <ProfileTabNav items={PROFILE_SECTIONS} activeId={section} onChange={setSection} variant="sub" style={{ margin: 0 }} />
+            <select
+              className="glass-card"
+              style={{ padding: "0.3rem 0.6rem", borderRadius: "6px", background: "rgba(255, 255, 255, 0.1)", color: "white", border: "1px solid rgba(255, 255, 255, 0.2)", outline: "none", cursor: "pointer", fontSize: "0.8rem", flexShrink: 0 }}
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+            >
+              <option value="newest" style={{ color: "black", background: "white" }}>Newest</option>
+              <option value="oldest" style={{ color: "black", background: "white" }}>Oldest</option>
+              <option value="asc" style={{ color: "black", background: "white" }}>Low -{">"} High</option>
+              <option value="desc" style={{ color: "black", background: "white" }}>High -{">"} Low</option>
+            </select>
+          </div>
 
           <div className="profile-content-panel">
             <AnimatePresence mode="wait">
@@ -193,7 +208,9 @@ function ProfilePage() {
                     section={section}
                     tab={tab}
                     isOwner={isOwner}
+                    profileUser={profileData.user}
                     onRefresh={refreshAll}
+                    sortOrder={sortOrder}
                   />
                 )}
               </motion.div>

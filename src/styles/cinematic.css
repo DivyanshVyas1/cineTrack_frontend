@@ -2780,36 +2780,29 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: default;
+  cursor: pointer;
 }
 
 .mobile-toggle-icon {
-  display: none;
+  display: block;
   font-size: 0.8rem;
   color: var(--text-muted);
 }
 
+.sidebar-mobile-toggle .sidebar-section-heading {
+  margin-bottom: 0;
+}
+
+.sidebar-collapsible {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.sidebar-collapsible.open {
+  display: block;
+}
+
 @media (max-width: 768px) {
-  .sidebar-mobile-toggle {
-    cursor: pointer;
-    padding-bottom: 0.5rem;
-  }
-  
-  .sidebar-mobile-toggle .sidebar-section-heading {
-    margin-bottom: 0;
-  }
-
-  .mobile-toggle-icon {
-    display: block;
-  }
-
-  .sidebar-collapsible {
-    display: none;
-    animation: fadeIn 0.3s ease;
-  }
-
-  .sidebar-collapsible.open {
-    display: block;
-  }
+  /* No overrides needed since we made the toggle global */
 }
 

@@ -14,7 +14,7 @@ function TasteMatchSuggestions({ suggestions = [] }) {
   return (
     <div>
       <h4>Taste matches</h4>
-      <p className="sidebar-muted">Based on shared genres and ratings</p>
+      <p className="sidebar-muted" style={{ marginBottom: "0.4rem" }}>Based on shared genres and ratings</p>
       <ul className="taste-match-list">
         {suggestions.map((entry) => (
           <li key={entry.user._id}>

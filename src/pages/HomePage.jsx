@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import UserFeedCard from "../components/feed/UserFeedCard";
 import FeedPost from "../components/feed/FeedPost";
 import LeftSidebar from "../components/layout/LeftSidebar";
 import RightSidebar from "../components/layout/RightSidebar";
@@ -34,10 +35,10 @@ function HomePage() {
     loadFeed();
   }, [loadFeed]);
 
-  const feed = useMemo(
-    () => filterFeedPosts(raw.feed, mediaFilter, { hideSpoilers }),
-    [raw.feed, mediaFilter, hideSpoilers]
-  );
+  const feed = useMemo(() => {
+    const filtered = filterFeedPosts(raw.feed, mediaFilter, { hideSpoilers });
+    return filtered.filter(item => mediaFilter === "music" || item.posts.length >= 4);
+  }, [raw.feed, mediaFilter, hideSpoilers]);
   const founderSuggestions = useMemo(
     () => filterFounderSuggestions(raw.founderSuggestions, mediaFilter),
     [raw.founderSuggestions, mediaFilter]
@@ -84,9 +85,14 @@ function HomePage() {
             )}
           </div>
         ) : null}
-        {feed.map((item) => (
-          <FeedPost key={item._id} post={item} onChanged={loadFeed} />
-        ))}
+        {feed.map((item) => {
+          if (mediaFilter === "music") {
+            return item.posts.map(post => (
+              <FeedPost key={post._id} post={{...post, user: item.user, isOwnPost: item.isOwnProfile, isFollowing: item.isFollowing}} onChanged={loadFeed} />
+            ));
+          }
+          return <UserFeedCard key={item._id} feedGroup={item} onChanged={loadFeed} />;
+        })}
       </section>
       <RightSidebar founderSuggestions={founderSuggestions} trendingWeek={trendingWeek} />
     </div>

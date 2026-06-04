@@ -28,7 +28,7 @@ function MainLayout() {
           {isAdmin ? <NavLink to="/admin">Admin</NavLink> : null}
         </nav>
 
-        <div className="navbar-auth">
+        <div className="navbar-auth" style={{ display: "flex", flexWrap: "nowrap", alignItems: "center", gap: "0.5rem" }}>
           {isAuthenticated ? (
             <>
               <NavLink
@@ -36,11 +36,22 @@ function MainLayout() {
                 className={({ isActive }) =>
                   `navbar-user-link${isActive ? " navbar-user-link-active" : ""}`
                 }
+                style={{ flexShrink: 1, minWidth: 0, display: "flex", alignItems: "center" }}
               >
-                {user?.name}
+                <span style={{ 
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: "80px",
+                  display: "inline-block"
+                }} title={user?.name}>
+                  {user?.name?.split(" ")[0]}
+                </span>
                 {isAdmin ? <span className="role-badge">Admin</span> : null}
               </NavLink>
-              <SettingsMenu />
+              <div style={{ flexShrink: 0 }}>
+                <SettingsMenu />
+              </div>
             </>
           ) : (
             <>

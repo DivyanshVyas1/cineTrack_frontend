@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { buildTitleLink } from "../../lib/titleLink";
 import MusicAudioPlayer from "./MusicAudioPlayer";
+import PostRatingBadge from "./PostRatingBadge";
 
-function MusicPostExtras({ post, variant = "feed", showTitle = false, linkTitle = false }) {
+function MusicPostExtras({ post, variant = "feed", showTitle = false, linkTitle = false, showRating = false }) {
   if (post.type !== "music" && post.movie?.type !== "music") return null;
 
   const title = post.title || post.movie?.title;
@@ -17,9 +18,12 @@ function MusicPostExtras({ post, variant = "feed", showTitle = false, linkTitle 
   const titleHref = linkTitle ? buildTitleLink(post) : null;
 
   const titleNode = showTitle && title ? (
-    <h3 className="music-post-title">
-      {titleHref ? <Link to={titleHref}>{title}</Link> : title}
-    </h3>
+    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+      <h3 className="music-post-title">
+        {titleHref ? <Link to={titleHref}>{title}</Link> : title}
+      </h3>
+      {showRating && post.rating ? <PostRatingBadge rating={post.rating} /> : null}
+    </div>
   ) : null;
 
   return (
@@ -49,13 +53,7 @@ function MusicPostExtras({ post, variant = "feed", showTitle = false, linkTitle 
         <div className="music-post-info">
           {showTitle && title ? (
             <div className="music-post-title-row">
-              {titleHref ? (
-                <Link to={titleHref} className="music-post-title-link">
-                  {titleNode}
-                </Link>
-              ) : (
-                titleNode
-              )}
+              {titleNode}
             </div>
           ) : null}
           {artist ? (

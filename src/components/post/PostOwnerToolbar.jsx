@@ -97,7 +97,9 @@ function PostOwnerToolbar({ post, onChanged, showRating = false, menuOnly = fals
             type="button"
             role="menuitem"
             className={`post-menu-item ${isFavorite ? "post-menu-item-active" : ""}`}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
               closeMenu();
               handleFavorite();
             }}
@@ -109,7 +111,9 @@ function PostOwnerToolbar({ post, onChanged, showRating = false, menuOnly = fals
             type="button"
             role="menuitem"
             className="post-menu-item"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
               closeMenu();
               setEditOpen(true);
             }}
@@ -120,7 +124,11 @@ function PostOwnerToolbar({ post, onChanged, showRating = false, menuOnly = fals
             type="button"
             role="menuitem"
             className="post-menu-item post-menu-item-danger"
-            onClick={handleDelete}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleDelete();
+            }}
             disabled={deleting}
           >
             {deleting ? "…" : "Delete"}
@@ -138,7 +146,11 @@ function PostOwnerToolbar({ post, onChanged, showRating = false, menuOnly = fals
       aria-label="Post options"
       aria-expanded={menuOpen}
       aria-haspopup="menu"
-      onClick={() => setMenuOpen((v) => !v)}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setMenuOpen((v) => !v);
+      }}
     >
       ⋮
     </button>

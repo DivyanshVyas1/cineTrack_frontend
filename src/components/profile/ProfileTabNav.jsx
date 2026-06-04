@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 
-function ProfileTabNav({ items, activeId, onChange, variant = "main" }) {
+function ProfileTabNav({ items, activeId, onChange, variant = "main", style }) {
   const isMain = variant === "main";
 
   return (
-    <nav className={isMain ? "profile-tabs profile-tabs-animated" : "profile-subtabs profile-subtabs-animated"}>
+    <nav className={isMain ? "profile-tabs profile-tabs-animated" : "profile-subtabs profile-subtabs-animated"} style={style}>
       {items.map((item) => {
         const active = activeId === item.id;
         return (

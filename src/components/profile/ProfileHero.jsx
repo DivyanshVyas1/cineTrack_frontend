@@ -32,11 +32,11 @@ function ProfileHero({
 
       <div className="profile-hero-inner">
         <header className="profile-hero-header">
-          <div className="profile-identity">
+          <div className="profile-identity" style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "1rem", textAlign: "left", flexWrap: "nowrap" }}>
             <Avatar name={user.name} src={user.avatar} size={80} />
-            <div className="profile-hero-text">
-              <div className="profile-title-row">
-                <h2>{user.name}</h2>
+            <div className="profile-hero-text" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: 1, minWidth: 0 }}>
+              <div className="profile-title-row" style={{ display: "flex", alignItems: "center", flexWrap: "wrap", justifyContent: "flex-start", gap: "0.5rem" }}>
+                <h2 style={{ margin: 0, fontSize: "1.5rem", fontWeight: "bold" }}>{user.name}</h2>
                 {isOwner ? <Badge variant="pink">You</Badge> : null}
                 {user.isPrivate ? (
                   <Badge variant="amber">Private</Badge>
@@ -44,8 +44,8 @@ function ProfileHero({
                   <Badge variant="green">Public</Badge>
                 )}
               </div>
-              <p className="profile-handle">@{user.username}</p>
-              {user.bio ? <p className="profile-bio">{user.bio}</p> : null}
+              <p className="profile-handle" style={{ margin: "0.2rem 0 0 0", color: "var(--text-secondary)", fontSize: "0.9rem" }}>@{user.username}</p>
+              {user.bio ? <p className="profile-bio" style={{ margin: "0.5rem 0 0 0" }}>{user.bio}</p> : null}
             </div>
           </div>
 
@@ -68,16 +68,25 @@ function ProfileHero({
               </div>
             ) : null}
             {!isOwner ? (
-              <FollowButton
-                username={user.username}
-                initialFollowing={isFollowing}
-                initialRequestPending={requestPending}
-                isPrivateTarget={user.isPrivate}
-                onChange={onFollowChange}
-              />
-            ) : null}
-            {!isOwner && tasteMatchPercent != null ? (
-              <span className="taste-match-hero-pill">{tasteMatchPercent}% taste match</span>
+              <div style={{ display: "flex", gap: "1rem", width: "100%" }}>
+                <div style={{ flex: 1, display: "flex" }}>
+                  <FollowButton
+                    username={user.username}
+                    initialFollowing={isFollowing}
+                    initialRequestPending={requestPending}
+                    isPrivateTarget={user.isPrivate}
+                    onChange={onFollowChange}
+                    style={{ width: "100%", height: "42px", margin: 0, display: "flex", alignItems: "center", justifyContent: "center", boxSizing: "border-box", whiteSpace: "nowrap" }}
+                  />
+                </div>
+                {tasteMatchPercent != null ? (
+                  <div style={{ flex: 1, display: "flex" }}>
+                    <span className="taste-match-hero-pill" style={{ width: "100%", height: "42px", display: "flex", alignItems: "center", justifyContent: "center", margin: 0, boxSizing: "border-box", whiteSpace: "nowrap" }}>
+                      {tasteMatchPercent}% taste match
+                    </span>
+                  </div>
+                ) : null}
+              </div>
             ) : null}
           </div>
         </header>
@@ -118,37 +127,43 @@ function ProfileHero({
                 <strong>{stats.followingCount ?? 0}</strong>
                 <span>Following</span>
               </button>
-              <div
-                className="profile-stat-cell profile-stat-rating"
-                title="Average score other users gave this profile"
-              >
-                <strong>{stats.averageRating != null ? `${stats.averageRating}/10` : "—"}</strong>
-                <span>Avg rating</span>
-                {stats.ratingsCount > 0 ? (
-                  <em>{stats.ratingsCount} reviews</em>
-                ) : null}
+              <div className="profile-stat-cell">
+                <strong>{stats.postsCount ?? 0}</strong>
+                <span>Posts</span>
               </div>
             </div>
           </section>
         ) : null}
 
-        {genreOverall?.length ? (
-          <section className="profile-block profile-genre-block" aria-label="Genre taste">
-            <GenreBreakdown
-              stats={genreOverall}
-              title="Overall genre taste"
-              subtitle={canViewContent ? "All logged titles" : "Genre breakdown only — follow to see posts"}
-              embedded
-            />
-          </section>
-        ) : null}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "1.5rem", alignItems: "flex-start", marginTop: "1.5rem" }}>
+          {genreOverall?.length ? (
+            <div style={{ flex: "1 1 0%", minWidth: "280px" }}>
+              <section className="profile-block profile-genre-block" aria-label="Genre taste" style={{ margin: 0 }}>
+                <GenreBreakdown
+                  stats={genreOverall}
+                  title="Overall genre taste"
+                  subtitle={canViewContent ? "All logged titles" : "Genre breakdown only — follow to see posts"}
+                  embedded
+                />
+              </section>
+            </div>
+          ) : null}
 
-        <CharacterSection label="Favorite characters" characters={favoriteCharacters} variant="favorite" />
-        <CharacterSection
-          label="Most disgusting characters"
-          characters={ganduCharacters}
-          variant="gandu"
-        />
+          {(favoriteCharacters.length > 0 || ganduCharacters.length > 0) ? (
+            <div style={{ flex: "1 1 0%", minWidth: "280px", display: "flex", flexDirection: "column", gap: "1rem" }}>
+              <div style={{ flex: 1 }}>
+                <CharacterSection label="Favorite characters" characters={favoriteCharacters} variant="favorite" />
+              </div>
+              <div style={{ flex: 1 }}>
+                <CharacterSection
+                  label="Most disgusting characters"
+                  characters={ganduCharacters}
+                  variant="gandu"
+                />
+              </div>
+            </div>
+          ) : null}
+        </div>
       </div>
     </section>
   );
