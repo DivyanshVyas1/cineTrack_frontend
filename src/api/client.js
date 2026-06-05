@@ -17,6 +17,20 @@ client.interceptors.request.use((config) => {
   return config;
 });
 
+client.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // Clear token if invalid/expired to prevent getting stuck
+      if (localStorage.getItem("cinetrack_auth")) {
+        localStorage.removeItem("cinetrack_auth");
+        window.location.reload(); // Force app to re-evaluate auth state
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const getApiErrorMessage = (error, fallback = "Something went wrong") => {
   if (error.response?.data?.message) return error.response.data.message;
   if (error.code === "ERR_NETWORK") {
