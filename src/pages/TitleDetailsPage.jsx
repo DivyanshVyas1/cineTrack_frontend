@@ -8,6 +8,8 @@ import MusicAudioPlayer from "../components/post/MusicAudioPlayer";
 import { useAuth } from "../hooks/useAuth";
 import { getRateHeading, getMediaLabel } from "../lib/mediaLabels";
 import { fetchTitleDetail } from "../services/titleService";
+import { createMovie } from "../services/movieService";
+import { addToList } from "../services/userService";
 
 function TitleDetailsPage() {
   const [searchParams] = useSearchParams();
@@ -20,6 +22,7 @@ function TitleDetailsPage() {
   const [reviews, setReviews] = useState([]);
   const [stats, setStats] = useState({ count: 0, average: null });
   const [loading, setLoading] = useState(true);
+  const [addingToWatchlist, setAddingToWatchlist] = useState(false);
 
   const load = useCallback(async (isRefresh = false) => {
     if (!title.trim()) {
@@ -71,6 +74,25 @@ function TitleDetailsPage() {
     previewUrl: info.previewUrl || "",
     youtubeVideoId: info.youtubeVideoId || "",
     genres: info.genres || [],
+  };
+
+  const handleWatchlist = async () => {
+    setAddingToWatchlist(true);
+    try {
+      const created = await createMovie({
+        title: info.title,
+        type: postType,
+        overview: info.overview || info.artistName || "",
+        poster: info.poster || "",
+        genres: isMusic ? [] : info.genres || [],
+      });
+      await addToList(created._id, "watchlist");
+      toast.success("Added to watchlist");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to add to watchlist");
+    } finally {
+      setAddingToWatchlist(false);
+    }
   };
 
   return (
@@ -151,6 +173,16 @@ function TitleDetailsPage() {
               <span>Cinescore {avg}/10</span>
               <span>{stats.count} community reviews</span>
             </div>
+            {isAuthenticated ? (
+              <button 
+                onClick={handleWatchlist} 
+                className="btn-primary" 
+                style={{ marginTop: '1rem' }}
+                disabled={addingToWatchlist}
+              >
+                {addingToWatchlist ? "Adding..." : "+ Add to Watchlist"}
+              </button>
+            ) : null}
           </div>
         </div>
       </section>

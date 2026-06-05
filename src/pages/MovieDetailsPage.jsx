@@ -16,6 +16,8 @@ import { getRateHeading, getMediaLabel } from "../lib/mediaLabels";
 
 import { fetchMovie, fetchMovieReviews } from "../services/movieService";
 
+import { addToList } from "../services/userService";
+
 
 
 function MovieDetailsPage() {
@@ -31,6 +33,8 @@ function MovieDetailsPage() {
   const [stats, setStats] = useState({ count: 0, average: null });
 
   const [loading, setLoading] = useState(true);
+
+  const [addingToWatchlist, setAddingToWatchlist] = useState(false);
 
 
 
@@ -100,6 +104,20 @@ function MovieDetailsPage() {
 
 
 
+  const handleWatchlist = async () => {
+    setAddingToWatchlist(true);
+    try {
+      await addToList(movie._id, "watchlist");
+      toast.success("Added to watchlist");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to add to watchlist");
+    } finally {
+      setAddingToWatchlist(false);
+    }
+  };
+
+
+
   return (
 
     <div className="movie-page">
@@ -147,6 +165,17 @@ function MovieDetailsPage() {
               <span>{stats.count} community reviews</span>
 
             </div>
+
+            {isAuthenticated ? (
+              <button 
+                onClick={handleWatchlist} 
+                className="btn-primary" 
+                style={{ marginTop: '1rem' }}
+                disabled={addingToWatchlist}
+              >
+                {addingToWatchlist ? "Adding..." : "+ Add to Watchlist"}
+              </button>
+            ) : null}
 
           </div>
 

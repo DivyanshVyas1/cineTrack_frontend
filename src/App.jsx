@@ -1,4 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import client from "./api/client";
 import MainLayout from "./layouts/MainLayout";
 import AnimatedOutlet from "./layouts/AnimatedOutlet";
 import HomePage from "./pages/HomePage";
@@ -15,6 +17,10 @@ import AdminRoute from "./components/auth/AdminRoute";
 import AboutPage from "./pages/AboutPage";
 
 function App() {
+  useEffect(() => {
+    client.post("/admin/visit").catch(() => {});
+  }, []);
+
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
