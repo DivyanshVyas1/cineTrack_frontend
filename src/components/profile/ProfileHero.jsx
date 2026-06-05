@@ -3,6 +3,7 @@ import Avatar from "../ui/Avatar";
 import Badge from "../ui/Badge";
 import FollowButton from "../social/FollowButton";
 import CharacterSection from "./CharacterSection";
+import FloatingCharactersCloud from "./FloatingCharactersCloud";
 import GenreBreakdown from "./GenreBreakdown";
 
 function ProfileHero({
@@ -150,17 +151,13 @@ function ProfileHero({
           ) : null}
 
           {(favoriteCharacters.length > 0 || ganduCharacters.length > 0) ? (
-            <div style={{ flex: "1 1 0%", minWidth: "280px", display: "flex", flexDirection: "column", gap: "1rem" }}>
-              <div style={{ flex: 1 }}>
-                <CharacterSection label="Favorite characters" characters={favoriteCharacters} variant="favorite" />
-              </div>
-              <div style={{ flex: 1 }}>
-                <CharacterSection
-                  label="Most disgusting characters"
-                  characters={ganduCharacters}
-                  variant="gandu"
-                />
-              </div>
+            <div style={{ flex: "1 1 0%", minWidth: "280px", display: "flex" }}>
+              <FloatingCharactersCloud 
+                characters={[
+                  ...favoriteCharacters.map(c => ({ ...c, variant: "favorite" })),
+                  ...ganduCharacters.map(c => ({ ...c, variant: "gandu" }))
+                ]} 
+              />
             </div>
           ) : null}
         </div>

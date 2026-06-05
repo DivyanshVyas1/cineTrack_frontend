@@ -37,7 +37,7 @@ function HomePage() {
 
   const feed = useMemo(() => {
     const filtered = filterFeedPosts(raw.feed, mediaFilter, { hideSpoilers });
-    return filtered.filter(item => mediaFilter === "music" || item.posts.length >= 4);
+    return filtered.filter(item => mediaFilter === "music" || item.posts.length >= 3);
   }, [raw.feed, mediaFilter, hideSpoilers]);
   const founderSuggestions = useMemo(
     () => filterFounderSuggestions(raw.founderSuggestions, mediaFilter),

@@ -4,19 +4,20 @@ import { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import FollowButton from "../social/FollowButton";
 import Avatar from "../ui/Avatar";
+import { getGenreColor } from "../../lib/colors";
 
 function UserFeedCard({ feedGroup }) {
   const { _id, user, subtitle, posts, isFollowing, isOwnProfile, communityRating, topGenres } = feedGroup;
   
-  // Pad posts to exactly 4 slots to maintain grid structure if <= 4
+  // Pad posts to exactly 3 slots to maintain grid structure if <= 3
   const displayPosts = [...posts];
-  while (displayPosts.length < 4) {
+  while (displayPosts.length < 3) {
     displayPosts.push(null);
   }
 
-  const hasMoreThanFour = posts.length > 4;
+  const hasMoreThanThree = posts.length > 3;
   const sliderRef = useRef(null);
-  const [showRightGradient, setShowRightGradient] = useState(hasMoreThanFour);
+  const [showRightGradient, setShowRightGradient] = useState(hasMoreThanThree);
 
   const handleScroll = () => {
     if (!sliderRef.current) return;
@@ -25,10 +26,10 @@ function UserFeedCard({ feedGroup }) {
   };
 
   useEffect(() => {
-    if (hasMoreThanFour) {
+    if (hasMoreThanThree) {
       handleScroll();
     }
-  }, [hasMoreThanFour]);
+  }, [hasMoreThanThree]);
 
   const scrollRight = () => {
     if (sliderRef.current) {
@@ -37,7 +38,7 @@ function UserFeedCard({ feedGroup }) {
   };
 
   return (
-    <div className="glass-card panel" style={{ padding: "1.5rem", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+    <div className="glass-card panel" style={{ padding: "1.5rem", display: "flex", flexDirection: "column", gap: "1rem", minWidth: 0, overflow: "hidden" }}>
       <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
         <Link to={`/profile/${user.username}`} style={{ flexShrink: 0, textDecoration: "none" }}>
           <Avatar name={user.name} src={user.avatar} size={64} />
@@ -63,11 +64,14 @@ function UserFeedCard({ feedGroup }) {
           
           {topGenres?.length > 0 && (
             <div style={{ display: "flex", gap: "0.4rem", flexWrap: "nowrap", overflowX: "auto", paddingBottom: "2px", scrollbarWidth: "none", msOverflowStyle: "none" }}>
-              {topGenres.map(g => (
-                <span key={g} style={{ flexShrink: 0, border: "1px solid rgba(255,255,255,0.15)", borderRadius: "12px", padding: "1px 8px", fontSize: "0.7rem", color: "var(--text-secondary)", background: "rgba(255,255,255,0.05)", whiteSpace: "nowrap" }}>
-                  {g}
-                </span>
-              ))}
+              {topGenres.map(g => {
+                const colors = getGenreColor(g);
+                return (
+                  <span key={g} style={{ flexShrink: 0, border: `1px solid ${colors.border}`, borderRadius: "12px", padding: "1px 8px", fontSize: "0.7rem", color: colors.color, background: colors.bg, whiteSpace: "nowrap" }}>
+                    {g}
+                  </span>
+                );
+              })}
             </div>
           )}
         </div>
@@ -77,14 +81,14 @@ function UserFeedCard({ feedGroup }) {
          🎬 {subtitle}
       </p>
 
-      <div style={{ position: "relative" }}>
+      <div style={{ position: "relative", minWidth: 0, width: "100%" }}>
         <div 
           ref={sliderRef}
-          onScroll={hasMoreThanFour ? handleScroll : undefined}
+          onScroll={hasMoreThanThree ? handleScroll : undefined}
           style={{ 
             display: "grid", 
             gridAutoFlow: "column",
-            gridAutoColumns: "calc(25% - 0.75rem)",
+            gridAutoColumns: "calc(33.333% - 0.667rem)",
             gap: "1rem", 
             overflowX: "auto", 
             paddingBottom: "0.5rem",
@@ -121,14 +125,14 @@ function UserFeedCard({ feedGroup }) {
           })}
         </div>
         
-        {hasMoreThanFour && showRightGradient && (
+        {hasMoreThanThree && showRightGradient && (
           <div 
             style={{ 
               position: "absolute", 
               top: 0, 
               right: 0, 
               bottom: "0.5rem", 
-              width: "25%", 
+              width: "33.333%", 
               background: "linear-gradient(to right, transparent, rgba(5, 8, 15, 0.95))", 
               display: "flex", 
               alignItems: "center", 

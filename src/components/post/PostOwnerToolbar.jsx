@@ -77,7 +77,6 @@ function PostOwnerToolbar({ post, onChanged, showRating = false, menuOnly = fals
       const result = await togglePostFavorite(post._id);
       setIsFavorite(result.isFavorite);
       toast.success(result.isFavorite ? "Added to favourites" : "Removed from favourites");
-      onChanged?.();
     } catch (err) {
       toast.error(getApiErrorMessage(err, "Failed to update favourite"));
     } finally {

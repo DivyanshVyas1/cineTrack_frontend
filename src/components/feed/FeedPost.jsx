@@ -13,6 +13,7 @@ import MusicPostExtras from "../post/MusicPostExtras";
 import { buildTitleLink } from "../../lib/titleLink";
 import PostRatingBadge from "../post/PostRatingBadge";
 import { toggleLike, fetchComments, postComment } from "../../services/socialService";
+import { getGenreColor } from "../../lib/colors";
 
 const commentsTransition = { duration: 0.28, ease: [0.4, 0, 0.2, 1] };
 
@@ -139,9 +140,16 @@ function FeedPost({ post, onChanged }) {
                   </Badge>
                 ) : null}
                 {movie?.genres?.length ? (
-                  <span className="feed-post-genres">
-                    {movie.genres.slice(0, 3).join(" • ")}
-                  </span>
+                  <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+                    {movie.genres.slice(0, 3).map(g => {
+                      const colors = getGenreColor(g);
+                      return (
+                        <span key={g} style={{ flexShrink: 0, border: `1px solid ${colors.border}`, borderRadius: "12px", padding: "1px 8px", fontSize: "0.7rem", color: colors.color, background: colors.bg, whiteSpace: "nowrap" }}>
+                          {g}
+                        </span>
+                      );
+                    })}
+                  </div>
                 ) : null}
                 {post.isSpoiler ? <Badge variant="amber">Spoiler</Badge> : null}
               </div>

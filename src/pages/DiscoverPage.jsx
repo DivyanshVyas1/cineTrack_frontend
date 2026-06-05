@@ -150,7 +150,7 @@ function DiscoverPage() {
           variant="favorite"
         />
         <TrendingCharacterGrid
-          title="Most disgusting characters"
+          title="Most disliked characters"
           subtitle="Chaotic character picks"
           items={summary.characters.gandu}
           variant="gandu"
