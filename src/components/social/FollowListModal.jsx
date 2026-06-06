@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
 import { getApiErrorMessage } from "../../api/client";
-import { fetchFollowers, fetchFollowing } from "../../services/socialService";
+import { fetchFollowers, fetchFollowing, removeFollower, unfollowUser } from "../../services/socialService";
 import Avatar from "../ui/Avatar";
+import { useAuth } from "../../hooks/useAuth";
 
 const TITLES = {
   followers: "Followers",
@@ -13,8 +14,31 @@ const TITLES = {
 };
 
 function FollowListModal({ username, type, open, onClose }) {
+  const { user: currentUser } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const isOwner = currentUser && currentUser.username === username;
+
+  const handleRemoveFollower = async (followerUsername) => {
+    try {
+      await removeFollower(followerUsername);
+      setUsers((prev) => prev.filter((u) => u.username !== followerUsername));
+      toast.success("Follower removed");
+    } catch (err) {
+      toast.error(getApiErrorMessage(err, "Failed to remove follower"));
+    }
+  };
+
+  const handleUnfollow = async (followingUsername) => {
+    try {
+      await unfollowUser(followingUsername);
+      setUsers((prev) => prev.filter((u) => u.username !== followingUsername));
+      toast.success("Unfollowed");
+    } catch (err) {
+      toast.error(getApiErrorMessage(err, "Failed to unfollow"));
+    }
+  };
 
   useEffect(() => {
     if (!open) return undefined;
@@ -76,14 +100,34 @@ function FollowListModal({ username, type, open, onClose }) {
             ) : null}
             <ul className="likes-list">
               {users.map((u) => (
-                <li key={u._id}>
-                  <Link to={`/profile/${u.username}`} onClick={onClose}>
+                <li key={u._id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingRight: "1.2rem" }}>
+                  <Link to={`/profile/${u.username}`} onClick={onClose} style={{ flexGrow: 1 }}>
                     <Avatar name={u.name} src={u.avatar} size={36} />
                     <div className="follow-list-user">
                       <span>{u.name}</span>
                       <em>@{u.username}</em>
                     </div>
                   </Link>
+                  {isOwner && type === "followers" && (
+                    <button
+                      type="button"
+                      className="btn-ghost"
+                      style={{ padding: "0.3rem 0.6rem", fontSize: "0.8rem", borderRadius: "12px", border: "1px solid rgba(255, 255, 255, 0.2)" }}
+                      onClick={() => handleRemoveFollower(u.username)}
+                    >
+                      Remove
+                    </button>
+                  )}
+                  {isOwner && type === "following" && (
+                    <button
+                      type="button"
+                      className="btn-ghost"
+                      style={{ padding: "0.3rem 0.6rem", fontSize: "0.8rem", borderRadius: "12px", border: "1px solid rgba(255, 255, 255, 0.2)" }}
+                      onClick={() => handleUnfollow(u.username)}
+                    >
+                      Unfollow
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>

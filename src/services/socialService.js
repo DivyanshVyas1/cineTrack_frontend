@@ -30,6 +30,11 @@ export const unfollowUser = async (username) => {
   return data.data;
 };
 
+export const removeFollower = async (username) => {
+  const { data } = await client.delete(`/users/me/followers/${username}`);
+  return data.data;
+};
+
 export const cancelFollowRequest = async (username) => {
   const { data } = await client.delete(`/users/${username}/follow-request`);
   return data.data;
