@@ -174,7 +174,17 @@
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
+  }
+
+  .profile-actions-grid > .follow-btn-container {
+    min-width: calc(50% - 0.75rem);
+  }
+  .profile-actions-grid > .taste-match-hero-pill {
+    min-width: calc(50% - 0.75rem);
+  }
+  .profile-actions-grid > .compare-btn {
+    min-width: 100%;
   }
 
   .profile-hero-actions .btn-ghost,
@@ -225,13 +235,17 @@
   }
 
   .profile-identity {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    text-align: center;
+    text-align: left;
   }
 
   .profile-title-row {
-    justify-content: center;
+    justify-content: flex-start;
+  }
+
+  .profile-handle {
+    flex-wrap: wrap;
   }
 }
 
@@ -249,4 +263,24 @@
 .panel,
 .page-card {
   max-width: 100%;
+}
+
+/* Compare Modal Mobile Responsiveness */
+@media (max-width: 600px) {
+  .compare-modal-padding {
+    padding: 1.5rem 1rem !important;
+  }
+  .compare-avatar-wrapper > div {
+    width: 55px !important;
+    height: 55px !important;
+  }
+  .compare-vs-text {
+    font-size: 1.8rem !important;
+  }
+  .compare-picks-container {
+    flex-direction: column !important;
+  }
+  .compare-genre-col:nth-child(n+4) {
+    display: none !important;
+  }
 }

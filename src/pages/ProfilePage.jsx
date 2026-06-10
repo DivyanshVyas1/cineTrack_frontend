@@ -6,6 +6,7 @@ import ProfileHero from "../components/profile/ProfileHero";
 import ProfileTasteSection from "../components/profile/ProfileTasteSection";
 import ProfileRequestsPanel from "../components/profile/ProfileRequestsPanel";
 import EditProfileModal from "../components/profile/EditProfileModal";
+import CompareModal from "../components/profile/CompareModal";
 import FollowListModal from "../components/social/FollowListModal";
 import ProfileSectionContent from "../components/profile/ProfileSectionContent";
 import ProfileTabNav from "../components/profile/ProfileTabNav";
@@ -29,6 +30,7 @@ function ProfilePage() {
   const [initialLoading, setInitialLoading] = useState(true);
   const [contentLoading, setContentLoading] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
+  const [compareOpen, setCompareOpen] = useState(false);
   const [followListType, setFollowListType] = useState(null);
   const [requestsOpen, setRequestsOpen] = useState(false);
   const [followRequestCount, setFollowRequestCount] = useState(0);
@@ -140,6 +142,7 @@ function ProfilePage() {
         requestsOpen={requestsOpen}
         onToggleFollowRequests={() => setRequestsOpen((v) => !v)}
         onEditProfile={() => setEditOpen(true)}
+        onCompareProfile={() => setCompareOpen(true)}
         onShowFollowList={canViewContent ? setFollowListType : undefined}
         requestsPanel={
           isOwner ? (
@@ -225,6 +228,16 @@ function ProfilePage() {
         profile={profileData.user}
         onSaved={handleProfileSaved}
       />
+
+      {currentUser && !isOwner && (
+        <AnimatePresence>
+          <CompareModal
+            open={compareOpen}
+            onClose={() => setCompareOpen(false)}
+            username={username}
+          />
+        </AnimatePresence>
+      )}
     </div>
   );
 }

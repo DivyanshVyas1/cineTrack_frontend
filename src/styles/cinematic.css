@@ -731,6 +731,24 @@
 .profile-hero .avatar-img {
   border-color: var(--border-accent, rgba(196, 181, 253, 0.28));
 }
+/* Profile actions grid */
+.profile-actions-grid {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.profile-actions-grid > .follow-btn-container {
+  flex: 1 1 auto;
+}
+.profile-actions-grid > .taste-match-hero-pill {
+  flex: 1 1 auto;
+  white-space: nowrap;
+}
+.profile-actions-grid > .compare-btn {
+  flex: 1 1 auto;
+}
+
 .badge {
   font-size: 0.72rem;
   padding: 0.2rem 0.55rem;
@@ -1082,6 +1100,10 @@
   margin: 0.25rem 0 0;
   color: var(--text-secondary);
   font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 .profile-bio {
   margin: 0.5rem 0 0;

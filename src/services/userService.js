@@ -46,3 +46,8 @@ export const fetchTasteSuggestions = async () => {
   const { data } = await client.get("/users/suggestions/taste");
   return data.data || [];
 };
+
+export const fetchProfileComparison = async (username) => {
+  const { data } = await client.get(`/users/${username}/compare`);
+  return data.data;
+};
