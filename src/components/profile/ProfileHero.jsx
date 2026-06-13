@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Avatar from "../ui/Avatar";
 import Badge from "../ui/Badge";
@@ -75,6 +76,14 @@ function ProfileHero({
   const isHeroicGenre = progressData?.genreSpecialist?.count >= 100;
   const isHeroicBook = progressData?.bibliophile?.count >= 100;
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 900);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
     <section 
       className="glass-card profile-hero" 
@@ -99,21 +108,22 @@ function ProfileHero({
       <div style={{ position: "relative", zIndex: 1, padding: "1.25rem 1.25rem 0" }}>
         
         {/* Achievements Trophy Button */}
-        <button
-          className="mobile-achievements-trophy"
-          onClick={onOpenAchievements}
-          title="Trophy Cabinet"
-          style={{
-            position: "absolute", top: "1rem", right: "1rem", background: "rgba(255,255,255,0.05)",
-            border: "1px solid rgba(255,255,255,0.1)", borderRadius: "50%", width: "36px", height: "36px",
-            alignItems: "center", justifyContent: "center", cursor: "pointer",
-            fontSize: "1.1rem", transition: "all 0.2s", zIndex: 10
-          }}
-          onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.1)"; e.currentTarget.style.transform = "scale(1.05)"; }}
-          onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.transform = "scale(1)"; }}
-        >
-          🏆
-        </button>
+        {isMobile && (
+          <button
+            onClick={onOpenAchievements}
+            title="Trophy Cabinet"
+            style={{
+              position: "absolute", top: "1rem", right: "1rem", background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.1)", borderRadius: "50%", width: "36px", height: "36px",
+              display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
+              fontSize: "1.1rem", transition: "all 0.2s", zIndex: 10
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.1)"; e.currentTarget.style.transform = "scale(1.05)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.transform = "scale(1)"; }}
+          >
+            🏆
+          </button>
+        )}
 
         <header className="profile-hero-header" style={{ paddingBottom: "1.25rem" }}>
           
@@ -220,23 +230,24 @@ function ProfileHero({
           {/* ── ACTION BUTTONS ── */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: "0.8rem", alignItems: "stretch", flex: 1, minWidth: 0, justifyContent: "flex-end" }}>
             {/* BIG TROPHY FOR DESKTOP */}
-            <motion.button
-              className="desktop-achievements-trophy"
-              onClick={onOpenAchievements}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
-              style={{
-                flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "0.5rem",
-                width: "110px", flexShrink: 0, border: "1px solid rgba(255,215,0,0.3)", borderRadius: "10px", cursor: "pointer",
-                background: "linear-gradient(135deg, rgba(255,215,0,0.15) 0%, rgba(205,127,50,0.1) 100%)",
-                backdropFilter: "blur(8px)", transition: "border-color 0.2s", margin: 0, padding: "0.6rem 0.4rem"
-              }}
-              onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(255,215,0,0.6)"}
-              onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,215,0,0.3)"}
-            >
-              <span style={{ fontSize: "1.6rem", filter: "drop-shadow(0 2px 4px rgba(255,215,0,0.4))", lineHeight: 1 }}>🏆</span>
-              <span style={{ fontSize: "0.65rem", fontWeight: "700", color: "#ffd700", textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center" }}>Achievements</span>
-            </motion.button>
+            {!isMobile && (
+              <motion.button
+                onClick={onOpenAchievements}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                style={{
+                  display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "0.5rem",
+                  width: "110px", flexShrink: 0, border: "1px solid rgba(255,215,0,0.3)", borderRadius: "10px", cursor: "pointer",
+                  background: "linear-gradient(135deg, rgba(255,215,0,0.15) 0%, rgba(205,127,50,0.1) 100%)",
+                  backdropFilter: "blur(8px)", transition: "border-color 0.2s", margin: 0, padding: "0.6rem 0.4rem"
+                }}
+                onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(255,215,0,0.6)"}
+                onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,215,0,0.3)"}
+              >
+                <span style={{ fontSize: "1.6rem", filter: "drop-shadow(0 2px 4px rgba(255,215,0,0.4))", lineHeight: 1 }}>🏆</span>
+                <span style={{ fontSize: "0.65rem", fontWeight: "700", color: "#ffd700", textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center" }}>Achievements</span>
+              </motion.button>
+            )}
 
             <div className="profile-hero-actions" style={{ display: "flex", flexDirection: "column", gap: "0.6rem", flex: "1 1 200px", minWidth: 0, paddingTop: 0 }}>
             {isOwner ? (
