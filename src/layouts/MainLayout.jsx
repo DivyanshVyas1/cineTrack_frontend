@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import SettingsMenu from "../components/layout/SettingsMenu";
 import { useAuth } from "../hooks/useAuth";
@@ -10,16 +11,24 @@ const links = [
 
 function MainLayout() {
   const { isAuthenticated, isAdmin, user } = useAuth();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   return (
     <div className="app-shell">
       <header className="navbar glass-card">
-        <Link to="/" className="brand-link">
+        <Link to="/" className="brand-link" style={isMobile ? { order: 1, flexShrink: 0 } : undefined}>
           <img src="/logo.png" alt="CineTrack Logo" className="brand-logo" />
           <h1>CineTrack</h1>
         </Link>
 
-        <nav className="navbar-main">
+        <nav className="navbar-main" style={isMobile ? { order: 3, width: "100%", justifyContent: "space-around", paddingTop: "0.5rem", borderTop: "1px solid rgba(255, 255, 255, 0.08)", overflowX: "auto", flexWrap: "nowrap", WebkitOverflowScrolling: "touch", scrollbarWidth: "none" } : undefined}>
           {links.map((item) => (
             <NavLink key={item.to} to={item.to} end={item.to === "/"}>
               {item.label}
@@ -28,7 +37,7 @@ function MainLayout() {
           {isAdmin ? <NavLink to="/admin">Admin</NavLink> : null}
         </nav>
 
-        <div className="navbar-auth" style={{ display: "flex", flexWrap: "nowrap", alignItems: "center", gap: "0.5rem" }}>
+        <div className="navbar-auth" style={isMobile ? { order: 2, width: "auto", justifyContent: "flex-end", display: "flex", flexWrap: "nowrap", alignItems: "center", gap: "0.5rem" } : { display: "flex", flexWrap: "nowrap", alignItems: "center", gap: "0.5rem" }}>
           {isAuthenticated ? (
             <>
               <NavLink

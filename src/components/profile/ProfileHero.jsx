@@ -125,7 +125,7 @@ function ProfileHero({
           </button>
         )}
 
-        <header className="profile-hero-header" style={{ paddingBottom: "1.25rem" }}>
+        <header className="profile-hero-header" style={{ paddingBottom: "1.25rem", flexDirection: isMobile ? "column" : undefined, alignItems: isMobile ? "stretch" : undefined }}>
           
           {/* ── IDENTITY ROW ── */}
           <div className="profile-identity" style={{ alignItems: "center", gap: "1rem", flex: 1, minWidth: 0 }}>
@@ -228,7 +228,7 @@ function ProfileHero({
           </div>
 
           {/* ── ACTION BUTTONS ── */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.8rem", alignItems: "stretch", flex: 1, minWidth: 0, justifyContent: "flex-end" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.8rem", alignItems: "stretch", flex: 1, minWidth: 0, justifyContent: isMobile ? "flex-start" : "flex-end", width: isMobile ? "100%" : undefined }}>
             {/* BIG TROPHY FOR DESKTOP */}
             {!isMobile && (
               <motion.button

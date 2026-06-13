@@ -77,14 +77,35 @@
   position: absolute !important;
   top: 50% !important;
   left: 50% !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  max-width: 56.25vh !important; /* Forces 9:16 vertical ratio on desktop */
-  transform: translate(-50%, -50%) scale(1.35) !important;
+  transform: translate(-50%, -50%) !important;
   pointer-events: none !important; /* Block youtube interaction */
   border: none !important;
-  border-radius: 12px !important;
   background-color: #000 !important;
+}
+
+@media (max-width: 767px) {
+  @media (max-aspect-ratio: 9/16) {
+    .reels-video-container iframe {
+      height: 100vh !important;
+      width: calc(100vh * 9 / 16) !important;
+      border-radius: 0 !important;
+    }
+  }
+  @media (min-aspect-ratio: 9/16) {
+    .reels-video-container iframe {
+      width: 100vw !important;
+      height: calc(100vw * 16 / 9) !important;
+      border-radius: 0 !important;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .reels-video-container iframe {
+    height: 100vh !important;
+    width: calc(100vh * 9 / 16) !important;
+    border-radius: 12px !important;
+  }
 }
 
 .reels-overlay {
