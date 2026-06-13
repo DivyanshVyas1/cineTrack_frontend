@@ -83,20 +83,19 @@
   background-color: #000 !important;
 }
 
-@media (max-width: 767px) {
-  @media (max-aspect-ratio: 9/16) {
-    .reels-video-container iframe {
-      height: 100vh !important;
-      width: calc(100vh * 9 / 16) !important;
-      border-radius: 0 !important;
-    }
+@media (max-width: 767px) and (max-aspect-ratio: 9/16) {
+  .reels-video-container iframe {
+    height: 100vh !important;
+    width: calc(100vh * 9 / 16) !important;
+    border-radius: 0 !important;
   }
-  @media (min-aspect-ratio: 9/16) {
-    .reels-video-container iframe {
-      width: 100vw !important;
-      height: calc(100vw * 16 / 9) !important;
-      border-radius: 0 !important;
-    }
+}
+
+@media (max-width: 767px) and (min-aspect-ratio: 9/16) {
+  .reels-video-container iframe {
+    width: 100vw !important;
+    height: calc(100vw * 16 / 9) !important;
+    border-radius: 0 !important;
   }
 }
 

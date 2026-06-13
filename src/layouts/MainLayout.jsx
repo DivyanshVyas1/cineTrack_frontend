@@ -56,7 +56,6 @@ function MainLayout() {
                 }} title={user?.name}>
                   {user?.name?.split(" ")[0]}
                 </span>
-                {isAdmin ? <span className="role-badge">Admin</span> : null}
               </NavLink>
               <div style={{ flexShrink: 0 }}>
                 <SettingsMenu />
