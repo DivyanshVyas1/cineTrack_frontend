@@ -79,7 +79,7 @@ function ProfileSectionContent({ data, section, tab, isOwner, profileUser, onRef
             )}
           </p>
         ) : (
-          <div className={tab === "music" ? "profile-posts-column" : "profile-posts-grid"} style={tab === "music" ? { display: "flex", flexDirection: "column", gap: "1.5rem" } : {}}>
+          <div className={tab === "music" ? "profile-posts-column" : "profile-posts-grid"} style={tab === "music" ? { display: "flex", flexDirection: "column", gap: "1.5rem", marginTop: "1.5rem" } : {}}>
             {items.map((entry, i) => (
               <AnimatedItem key={entry._id} index={i}>
                 {tab === "music" ? (
@@ -106,7 +106,7 @@ function ProfileSectionContent({ data, section, tab, isOwner, profileUser, onRef
               : "No favourites in this category."}
           </p>
         ) : (
-          <div className={tab === "music" ? "profile-posts-column" : "profile-posts-grid"} style={tab === "music" ? { display: "flex", flexDirection: "column", gap: "1.5rem" } : {}}>
+          <div className={tab === "music" ? "profile-posts-column" : "profile-posts-grid"} style={tab === "music" ? { display: "flex", flexDirection: "column", gap: "1.5rem", marginTop: "1.5rem" } : {}}>
             {listItems.map((entry, i) => (
               <AnimatedItem key={entry._id} index={i}>
                 {tab === "music" ? (
@@ -138,7 +138,7 @@ function ProfileSectionContent({ data, section, tab, isOwner, profileUser, onRef
           )}
         </p>
       ) : (
-        <div className={tab === "music" ? "profile-posts-column" : "profile-posts-grid"} style={tab === "music" ? { display: "flex", flexDirection: "column", gap: "1.5rem" } : {}}>
+        <div className={tab === "music" ? "profile-posts-column" : "profile-posts-grid"} style={tab === "music" ? { display: "flex", flexDirection: "column", gap: "1.5rem", marginTop: "1.5rem" } : {}}>
           {posts.map((p, i) => (
             <AnimatedItem key={p._id} index={i}>
               {tab === "music" ? (

@@ -218,7 +218,7 @@ function ProfileHero({
           </div>
 
           {/* ── ACTION BUTTONS ── */}
-          <div style={{ display: "flex", gap: "0.8rem", alignItems: "stretch" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.8rem", alignItems: "stretch", flex: 1, minWidth: 0, justifyContent: "flex-end" }}>
             {/* BIG TROPHY FOR DESKTOP */}
             <motion.button
               className="desktop-achievements-trophy"
@@ -227,7 +227,7 @@ function ProfileHero({
               whileTap={{ scale: 0.97 }}
               style={{
                 flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "0.5rem",
-                width: "110px", border: "1px solid rgba(255,215,0,0.3)", borderRadius: "10px", cursor: "pointer",
+                width: "110px", flexShrink: 0, border: "1px solid rgba(255,215,0,0.3)", borderRadius: "10px", cursor: "pointer",
                 background: "linear-gradient(135deg, rgba(255,215,0,0.15) 0%, rgba(205,127,50,0.1) 100%)",
                 backdropFilter: "blur(8px)", transition: "border-color 0.2s", margin: 0, padding: "0.6rem 0.4rem"
               }}
@@ -238,7 +238,7 @@ function ProfileHero({
               <span style={{ fontSize: "0.65rem", fontWeight: "700", color: "#ffd700", textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center" }}>Achievements</span>
             </motion.button>
 
-            <div className="profile-hero-actions" style={{ display: "flex", flexDirection: "column", gap: "0.6rem", minWidth: "260px", flexShrink: 0, paddingTop: 0 }}>
+            <div className="profile-hero-actions" style={{ display: "flex", flexDirection: "column", gap: "0.6rem", flex: "1 1 200px", minWidth: 0, paddingTop: 0 }}>
             {isOwner ? (
               <div style={{ display: "flex", gap: "0.6rem", width: "100%" }}>
                 <button
