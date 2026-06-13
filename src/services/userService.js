@@ -51,3 +51,8 @@ export const fetchProfileComparison = async (username) => {
   const { data } = await client.get(`/users/${username}/compare`);
   return data.data;
 };
+
+export const fetchAchievements = async (username) => {
+  const { data } = await client.get(`/users/${username}/achievements`);
+  return data.data || [];
+};

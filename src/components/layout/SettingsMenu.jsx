@@ -5,11 +5,13 @@ import { toast } from "react-toastify";
 import { getApiErrorMessage } from "../../api/client";
 import { useAuth } from "../../hooks/useAuth";
 import { updatePrivacy } from "../../services/userService";
+import AchievementsModal from "../profile/AchievementsModal";
 
 function SettingsMenu() {
   const { user, logout, updateUser } = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [achievementsOpen, setAchievementsOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [menuPos, setMenuPos] = useState({ top: 0, left: 0 });
   const triggerRef = useRef(null);
@@ -97,6 +99,14 @@ function SettingsMenu() {
       <button type="button" className="settings-logout" style={{ background: 'var(--primary-color)', color: 'white', marginBottom: '8px' }} onClick={handleAbout}>
         ℹ️ About CineTrack
       </button>
+      <button 
+        type="button" 
+        className="settings-logout" 
+        style={{ background: 'linear-gradient(135deg, rgba(255,42,133,0.3), rgba(120,80,255,0.3))', color: 'white', marginBottom: '8px', border: '1px solid rgba(255,255,255,0.1)' }} 
+        onClick={() => { setOpen(false); setAchievementsOpen(true); }}
+      >
+        🏆 My Achievements
+      </button>
       <button type="button" className="settings-logout" onClick={handleLogout}>
         Sign out
       </button>
@@ -115,6 +125,12 @@ function SettingsMenu() {
         ⚙
       </button>
       {open ? createPortal(dropdown, document.body) : null}
+      
+      <AchievementsModal
+        open={achievementsOpen}
+        onClose={() => setAchievementsOpen(false)}
+        username={user?.username}
+      />
     </>
   );
 }

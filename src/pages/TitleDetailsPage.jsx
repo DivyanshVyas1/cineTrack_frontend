@@ -23,6 +23,7 @@ function TitleDetailsPage() {
   const [stats, setStats] = useState({ count: 0, average: null });
   const [loading, setLoading] = useState(true);
   const [addingToWatchlist, setAddingToWatchlist] = useState(false);
+  const [inWatchlist, setInWatchlist] = useState(false);
 
   const load = useCallback(async (isRefresh = false) => {
     if (!title.trim()) {
@@ -35,6 +36,7 @@ function TitleDetailsPage() {
       setInfo(data.title);
       setReviews(data.reviews || []);
       setStats(data.stats || { count: 0, average: null });
+      setInWatchlist(data.inWatchlist || false);
     } catch (err) {
       toast.error(err.response?.data?.message || "Title not found");
       if (!isRefresh) setInfo(null);
@@ -87,6 +89,7 @@ function TitleDetailsPage() {
         genres: isMusic ? [] : info.genres || [],
       });
       await addToList(created._id, "watchlist");
+      setInWatchlist(true);
       toast.success("Added to watchlist");
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to add to watchlist");
@@ -138,7 +141,7 @@ function TitleDetailsPage() {
                   <div style={{ flexGrow: 1 }} />
                 )}
                 <a
-                  href={`https://open.spotify.com/search/${encodeURIComponent(`${info.title || ""} ${info.artistName || ""}`.trim())}/tracks`}
+                  href={`https://open.spotify.com/search/${encodeURIComponent(`${info.title || ""} ${info.artistName || ""}`.trim())}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   title="Open in Spotify"
@@ -173,14 +176,14 @@ function TitleDetailsPage() {
               <span>Cinescore {avg}/10</span>
               <span>{stats.count} community reviews</span>
             </div>
-            {isAuthenticated ? (
+            {isAuthenticated && !hasUserReview ? (
               <button 
                 onClick={handleWatchlist} 
-                className="btn-primary" 
+                className={inWatchlist ? "btn-ghost" : "btn-primary"} 
                 style={{ marginTop: '1rem' }}
-                disabled={addingToWatchlist}
+                disabled={addingToWatchlist || inWatchlist}
               >
-                {addingToWatchlist ? "Adding..." : "+ Add to Watchlist"}
+                {addingToWatchlist ? "Adding..." : inWatchlist ? "✓ In Watchlist" : "+ Add to Watchlist"}
               </button>
             ) : null}
           </div>

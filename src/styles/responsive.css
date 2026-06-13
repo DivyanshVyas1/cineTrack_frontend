@@ -284,3 +284,19 @@
     display: none !important;
   }
 }
+
+/* Achievements Layout */
+.desktop-achievements-trophy {
+  display: flex;
+}
+.mobile-achievements-trophy {
+  display: none;
+}
+@media (max-width: 900px) {
+  .desktop-achievements-trophy {
+    display: none !important;
+  }
+  .mobile-achievements-trophy {
+    display: flex !important;
+  }
+}

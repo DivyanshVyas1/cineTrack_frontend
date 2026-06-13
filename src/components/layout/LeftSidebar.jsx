@@ -29,13 +29,13 @@ function LeftSidebar({
           <div 
             className="sidebar-mobile-toggle" 
             onClick={() => setFiltersOpen(!filtersOpen)}
-            style={{ display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer" }}
+            style={{ display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", userSelect: "none" }}
           >
             <h4 className="sidebar-section-heading" style={{ margin: 0 }}>Filters</h4>
-            <span className="mobile-toggle-icon">{filtersOpen ? "▲" : "▼"}</span>
+            <span className="mobile-toggle-icon" style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>{filtersOpen ? "▲" : "▼"}</span>
           </div>
 
-          <div className={`sidebar-collapsible ${filtersOpen ? "open" : ""}`} style={{ marginTop: filtersOpen ? "1rem" : "0" }}>
+          <div className={`sidebar-collapsible ${filtersOpen ? "open" : ""}`} style={{ marginTop: filtersOpen ? "1rem" : "0", display: filtersOpen ? "block" : "none" }}>
             <nav className="sidebar-nav sidebar-feed-filters" aria-label="Filter feed by type">
               {FILTERS.map((f) => (
                 <button

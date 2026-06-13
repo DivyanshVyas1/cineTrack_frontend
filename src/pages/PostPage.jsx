@@ -29,7 +29,7 @@ function PostPage() {
         <h2>Post</h2>
         <p className="sidebar-muted">
           Log movies, web shows, books, or music and manage your watchlist. View your collection on{" "}
-          <Link to={`/profile/${user?.username}`}>your profile</Link>.
+          <Link to={`/profile/${user?.username}`} style={{ color: "#fff", fontWeight: "600", borderBottom: "1px solid rgba(255,255,255,0.4)", textDecoration: "none" }}>your profile</Link>.
         </p>
       </section>
 

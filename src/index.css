@@ -109,3 +109,206 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* Reels Feed Styles */
+.reels-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reels-close-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10000;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.reels-loader {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.reels-feed-container {
+  width: 100%;
+  height: 100vh;
+  max-width: 100vw;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  background: #000;
+}
+
+.reels-feed-container::-webkit-scrollbar {
+  display: none;
+}
+
+.reels-slide {
+  height: 100vh;
+  width: 100%;
+  scroll-snap-align: start;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+}
+
+.reels-video-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #000;
+}
+
+.reels-iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 100vh;
+  max-width: 56.25vh; /* 9:16 aspect ratio max width for desktop */
+  transform: translate(-50%, -50%);
+  pointer-events: none; /* Block youtube interaction to allow custom overlay */
+  border-radius: 12px;
+}
+
+.reels-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reels-mute-indicator {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.reels-mute-indicator .material-icons {
+  font-size: 3rem;
+}
+
+.reels-banner-card {
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 4px solid #ec4899;
+}
+
+.reels-banner-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.reels-banner-text h3 {
+  margin: 0 0 5px 0;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.reels-banner-text p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.reels-btn {
+  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+  color: white;
+  border: none;
+  font-weight: bold;
+  padding: 10px 20px;
+  display: inline-flex;
+  gap: 8px;
+  border-radius: 30px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.reels-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(236, 72, 153, 0.4);
+}
+
+/* removed reels-iframe-wrapper */
+
+.reels-nav-buttons {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 10000;
+}
+
+.reels-nav-btn {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.reels-nav-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
+}
+
+.reels-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Make sure close button is on top */
+.reels-close-btn {
+  z-index: 10001;
+}
+
+.custom-audio-player input[type='range']::-webkit-slider-thumb { appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--accent-1); cursor: pointer; }
+.custom-audio-player input[type='range']::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--accent-1); cursor: pointer; border: none; }
+

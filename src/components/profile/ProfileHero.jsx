@@ -55,6 +55,7 @@ function ProfileHero({
   isOwner,
   isFollowing,
   requestPending = false,
+  progressData = null,
   tasteMatchPercent = null,
   canViewContent = true,
   followRequestCount = 0,
@@ -64,14 +65,26 @@ function ProfileHero({
   onEditProfile,
   onCompareProfile,
   onShowFollowList,
+  onOpenAchievements,
   requestsPanel = null,
 }) {
   const user = profile;
   const favoriteCharacters = user.favoriteCharacters || [];
   const ganduCharacters = user.ganduCharacters || [];
 
+  const isHeroicGenre = progressData?.genreSpecialist?.count >= 100;
+  const isHeroicBook = progressData?.bibliophile?.count >= 100;
+
   return (
-    <section className="glass-card profile-hero" style={{ padding: 0, overflow: "hidden", position: "relative" }}>
+    <section 
+      className="glass-card profile-hero" 
+      style={{ 
+        padding: 0, overflow: "hidden", position: "relative",
+        boxShadow: isHeroicGenre ? "0 0 30px rgba(255, 42, 133, 0.4), inset 0 0 15px rgba(120, 80, 255, 0.3)" : undefined,
+        border: isHeroicGenre ? "1px solid rgba(255, 42, 133, 0.5)" : undefined,
+        transition: "all 0.3s ease"
+      }}
+    >
 
       {/* ── Cinematic gradient background ── */}
       <div aria-hidden="true" style={{
@@ -84,7 +97,25 @@ function ProfileHero({
       }} />
 
       <div style={{ position: "relative", zIndex: 1, padding: "1.25rem 1.25rem 0" }}>
-        <header className="profile-hero-header" style={{ alignItems: "center", paddingBottom: "1.25rem" }}>
+        
+        {/* Achievements Trophy Button */}
+        <button
+          className="mobile-achievements-trophy"
+          onClick={onOpenAchievements}
+          title="Trophy Cabinet"
+          style={{
+            position: "absolute", top: "1rem", right: "1rem", background: "rgba(255,255,255,0.05)",
+            border: "1px solid rgba(255,255,255,0.1)", borderRadius: "50%", width: "36px", height: "36px",
+            alignItems: "center", justifyContent: "center", cursor: "pointer",
+            fontSize: "1.1rem", transition: "all 0.2s", zIndex: 10
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.1)"; e.currentTarget.style.transform = "scale(1.05)"; }}
+          onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.transform = "scale(1)"; }}
+        >
+          🏆
+        </button>
+
+        <header className="profile-hero-header" style={{ paddingBottom: "1.25rem" }}>
           
           {/* ── IDENTITY ROW ── */}
           <div className="profile-identity" style={{ alignItems: "center", gap: "1rem", flex: 1, minWidth: 0 }}>
@@ -93,12 +124,64 @@ function ProfileHero({
             <div style={{ position: "relative", flexShrink: 0 }}>
               <div style={{
                 position: "absolute", inset: "-3px", borderRadius: "1.05rem",
-                background: "linear-gradient(135deg, rgba(255,42,133,0.5), rgba(120,80,255,0.5), rgba(0,229,255,0.4))",
+                background: isHeroicGenre 
+                  ? "linear-gradient(135deg, #ff2a85, #7850ff, #00e5ff, #ff2a85)" 
+                  : "linear-gradient(135deg, rgba(255,42,133,0.5), rgba(120,80,255,0.5), rgba(0,229,255,0.4))",
                 filter: "blur(6px)", opacity: 0.7, zIndex: 0,
+                animation: isHeroicGenre ? "pulseGlow 3s infinite" : "none"
               }} />
               <div style={{ position: "relative", zIndex: 1, borderRadius: "0.9rem", overflow: "hidden", border: "2px solid rgba(255,255,255,0.1)" }}>
                 <Avatar name={user.name} src={user.avatar} size={72} />
               </div>
+              
+              {/* Top Badges Overlay */}
+              {user?.topBadges?.length > 0 && (
+                <div style={{ 
+                  position: "absolute", top: "-6px", right: "-6px", 
+                  display: "flex", gap: "3px", zIndex: 3 
+                }}>
+                  {user.topBadges.slice(0, 2).map((badge, i) => {
+                    const glowSpread = badge.tierName === 'diamond' ? '12px' : badge.tierName === 'gold' ? '8px' : badge.tierName === 'silver' ? '4px' : '0';
+                    const shadow = badge.tierName === 'bronze' 
+                      ? 'inset 0 0 4px rgba(255,255,255,0.3)' 
+                      : badge.tierName === 'heroic'
+                      ? `0 0 20px ${badge.glow}, 0 0 30px ${badge.glow}, inset 0 0 6px rgba(255,255,255,0.6)`
+                      : `0 0 ${glowSpread} ${badge.glow}, inset 0 0 4px rgba(255,255,255,0.3)`;
+                    
+                    return (
+                      <div
+                        key={badge.trackId}
+                        title={`${badge.tierName.toUpperCase()} - ${badge.trackId}`}
+                        style={{
+                          width: "28px", height: "28px",
+                          borderRadius: "50%",
+                          background: badge.bg,
+                          border: `1.5px solid ${badge.border}`,
+                          boxShadow: shadow,
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          fontSize: "0.9rem",
+                          zIndex: 2 - i,
+                          marginLeft: i > 0 ? "-12px" : "0"
+                        }}
+                      >
+                        {badge.icon}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              
+              {/* Mystical Book Icon for Heroic Bibliophile */}
+              {isHeroicBook && (
+                <div title="Heroic Bibliophile" style={{
+                  position: "absolute", bottom: "-5px", right: "-5px", zIndex: 2,
+                  fontSize: "1.2rem", background: "rgba(0,0,0,0.8)", borderRadius: "50%",
+                  padding: "4px", boxShadow: "0 0 15px rgba(255, 215, 0, 0.8)", border: "1px solid rgba(255, 215, 0, 0.5)",
+                  display: "flex", alignItems: "center", justifyContent: "center"
+                }}>
+                  📖
+                </div>
+              )}
             </div>
 
             {/* Text info */}
@@ -107,10 +190,8 @@ function ProfileHero({
                 <h2 style={{ margin: 0, fontSize: "clamp(1.05rem, 4vw, 1.4rem)", fontWeight: "800", lineHeight: 1.2, letterSpacing: "-0.02em", wordBreak: "break-word" }}>
                   {user.name}
                 </h2>
-                {isOwner ? <Badge variant="pink">You</Badge> : null}
                 {user.isPrivate ? <Badge variant="amber">Private</Badge> : <Badge variant="green">Public</Badge>}
               </div>
-
               <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "0.35rem", marginBottom: user.bio ? "0.35rem" : 0 }}>
                 <span style={{ color: "var(--text-secondary)", fontSize: "0.82rem", minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                   @{user.username}
@@ -137,7 +218,27 @@ function ProfileHero({
           </div>
 
           {/* ── ACTION BUTTONS ── */}
-          <div className="profile-hero-actions" style={{ flexDirection: "column", gap: "0.6rem", minWidth: "260px", flexShrink: 0, paddingTop: 0 }}>
+          <div style={{ display: "flex", gap: "0.8rem", alignItems: "stretch" }}>
+            {/* BIG TROPHY FOR DESKTOP */}
+            <motion.button
+              className="desktop-achievements-trophy"
+              onClick={onOpenAchievements}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              style={{
+                flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "0.5rem",
+                width: "110px", border: "1px solid rgba(255,215,0,0.3)", borderRadius: "10px", cursor: "pointer",
+                background: "linear-gradient(135deg, rgba(255,215,0,0.15) 0%, rgba(205,127,50,0.1) 100%)",
+                backdropFilter: "blur(8px)", transition: "border-color 0.2s", margin: 0, padding: "0.6rem 0.4rem"
+              }}
+              onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(255,215,0,0.6)"}
+              onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,215,0,0.3)"}
+            >
+              <span style={{ fontSize: "1.6rem", filter: "drop-shadow(0 2px 4px rgba(255,215,0,0.4))", lineHeight: 1 }}>🏆</span>
+              <span style={{ fontSize: "0.65rem", fontWeight: "700", color: "#ffd700", textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center" }}>Achievements</span>
+            </motion.button>
+
+            <div className="profile-hero-actions" style={{ display: "flex", flexDirection: "column", gap: "0.6rem", minWidth: "260px", flexShrink: 0, paddingTop: 0 }}>
             {isOwner ? (
               <div style={{ display: "flex", gap: "0.6rem", width: "100%" }}>
                 <button
@@ -177,13 +278,13 @@ function ProfileHero({
                     />
                   </div>
                   {tasteMatchPercent != null ? (
-                    <span className="taste-match-hero-pill" style={{ flex: 1, height: "40px", padding: "0 0.5rem", display: "flex", alignItems: "center", justifyContent: "center", minWidth: 0, whiteSpace: "nowrap", gap: "0.3rem", margin: 0 }}>
-                      <span>✨</span>{tasteMatchPercent}% Taste Match
+                    <span className="taste-match-hero-pill" style={{ flex: 1, height: "40px", padding: "0 0.5rem", display: "flex", alignItems: "center", justifyContent: "center", whiteSpace: "nowrap", gap: "0.4rem", margin: 0, boxSizing: "border-box" }}>
+                      {tasteMatchPercent}% Taste Match
                     </span>
                   ) : null}
                 </div>
 
-                {/* Compare button — full width underneath */}
+                {/* Compare button — underneath */}
                 {tasteMatchPercent != null ? (
                   <motion.button
                     type="button"
@@ -211,6 +312,7 @@ function ProfileHero({
                 ) : null}
               </div>
             )}
+          </div>
           </div>
         </header>
       </div>

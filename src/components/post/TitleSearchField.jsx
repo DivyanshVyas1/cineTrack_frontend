@@ -20,7 +20,7 @@ const PLACEHOLDERS = {
   music: "Search music (YouTube Music)...",
 };
 
-function TitleSearchField({ mediaType, onSelect, disabled, required = true }) {
+function TitleSearchField({ mediaType, onSelect, disabled, required = true, className }) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -77,6 +77,7 @@ function TitleSearchField({ mediaType, onSelect, disabled, required = true }) {
     <div className="title-search-field">
       <div className="composer-search-wrap">
         <input
+          className={className}
           required={required && !selected}
           disabled={disabled}
           placeholder={PLACEHOLDERS[mediaType] || `Search ${label}...`}
@@ -127,7 +128,7 @@ function TitleSearchField({ mediaType, onSelect, disabled, required = true }) {
           {selected.poster ? (
             <img src={selected.poster} alt={selected.title} className="preview-poster" />
           ) : null}
-          <div className="preview-details">
+          <div className="preview-details" style={{ paddingRight: "60px" }}>
             <strong>{selected.title}</strong>
             {isMusic && (selected.artistName || selected.artist) ? (
               <p>

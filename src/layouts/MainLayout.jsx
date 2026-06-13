@@ -71,7 +71,7 @@ function MainLayout() {
       <footer className="app-footer glass-card">
         <div className="footer-content">
           <p>
-            <a href="mailto:peepal.team@gmail.com">peepal.team@gmail.com</a>
+            <a href="mailto:peepal.team@gmail.com" style={{ color: "#fff", textDecoration: "none" }}>peepal.team@gmail.com</a>
           </p>
         </div>
       </footer>

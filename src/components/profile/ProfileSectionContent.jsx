@@ -39,11 +39,18 @@ const SECTION_GENRE_TITLES = {
   books: "Book genre mix",
 };
 
-function ProfileSectionContent({ data, section, tab, isOwner, profileUser, onRefresh, sortOrder = "desc" }) {
+function ProfileSectionContent({ data, section, tab, isOwner, profileUser, onRefresh, sortOrder = "desc", genreFilter = null, isFollowing = false }) {
   if (!data) return null;
 
-  const sortItems = (items) => {
-    return [...items].sort((a, b) => {
+  const filterAndSort = (items) => {
+    let result = [...items];
+    if (genreFilter) {
+      result = result.filter(p => {
+        const genres = p.movie?.genres || p.genres || [];
+        return genres.includes(genreFilter);
+      });
+    }
+    return result.sort((a, b) => {
       if (sortOrder === "newest" || sortOrder === "oldest") {
         const dateA = new Date(a.watchedOn || a.createdAt || 0).getTime();
         const dateB = new Date(b.watchedOn || b.createdAt || 0).getTime();
@@ -54,6 +61,8 @@ function ProfileSectionContent({ data, section, tab, isOwner, profileUser, onRef
       return sortOrder === "asc" ? ratingA - ratingB : ratingB - ratingA;
     });
   };
+
+  const sortItems = filterAndSort;
 
   if (section === "watchlist") {
     const items = sortItems(data.items || []);
@@ -74,7 +83,7 @@ function ProfileSectionContent({ data, section, tab, isOwner, profileUser, onRef
             {items.map((entry, i) => (
               <AnimatedItem key={entry._id} index={i}>
                 {tab === "music" ? (
-                  <FeedPost post={{...entry, user: entry.user || profileUser, isOwnPost: isOwner}} onChanged={onRefresh} />
+                  <FeedPost post={{...entry, user: entry.user || profileUser, isOwnPost: isOwner, isFollowing: !isOwner && isFollowing}} onChanged={onRefresh} />
                 ) : (
                   <PostCard post={entry} hideActions={true} isWatchlist={true} />
                 )}
@@ -101,7 +110,7 @@ function ProfileSectionContent({ data, section, tab, isOwner, profileUser, onRef
             {listItems.map((entry, i) => (
               <AnimatedItem key={entry._id} index={i}>
                 {tab === "music" ? (
-                  <FeedPost post={{...entry, user: entry.user || profileUser, isOwnPost: isOwner}} onChanged={onRefresh} />
+                  <FeedPost post={{...entry, user: entry.user || profileUser, isOwnPost: isOwner, isFollowing: !isOwner && isFollowing}} onChanged={onRefresh} />
                 ) : (
                   <PostCard post={entry} canEdit={isOwner} onChanged={onRefresh} />
                 )}
@@ -133,7 +142,7 @@ function ProfileSectionContent({ data, section, tab, isOwner, profileUser, onRef
           {posts.map((p, i) => (
             <AnimatedItem key={p._id} index={i}>
               {tab === "music" ? (
-                <FeedPost post={{...p, user: p.user || profileUser, isOwnPost: isOwner}} onChanged={onRefresh} />
+                <FeedPost post={{...p, user: p.user || profileUser, isOwnPost: isOwner, isFollowing: !isOwner && isFollowing}} onChanged={onRefresh} />
               ) : (
                 <PostCard post={p} canEdit={isOwner} onChanged={onRefresh} />
               )}

@@ -39,39 +39,39 @@ const AboutPage = () => {
         style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem" }}
       >
         <motion.div className="feature-card glass-card" variants={itemVariants} style={{ padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem", transition: "transform 0.3s ease", cursor: "default" }} whileHover={{ y: -5 }}>
-          <div className="feature-icon" style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>🔍</div>
-          <h3 style={{ fontSize: "1.2rem", fontWeight: "600" }}>Universal Search</h3>
-          <p style={{ color: "var(--text-secondary)", lineHeight: "1.5" }}>Search across movies, web series, books, and music all in one seamless interface powered by TMDB and YouTube Music.</p>
-        </motion.div>
-
-        <motion.div className="feature-card glass-card" variants={itemVariants} style={{ padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem", transition: "transform 0.3s ease", cursor: "default" }} whileHover={{ y: -5 }}>
-          <div className="feature-icon" style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>📚</div>
-          <h3 style={{ fontSize: "1.2rem", fontWeight: "600" }}>Smart Collections</h3>
-          <p style={{ color: "var(--text-secondary)", lineHeight: "1.5" }}>Build watchlists, reading lists, and favorite collections. Never forget what you want to experience next.</p>
+          <div className="feature-icon" style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>🎨</div>
+          <h3 style={{ fontSize: "1.2rem", fontWeight: "600" }}>Cinematic Experience</h3>
+          <p style={{ color: "var(--text-secondary)", lineHeight: "1.5" }}>Immerse yourself in a beautiful, glassmorphic UI with dynamic hover effects, movie poster zooms, and a premium dark mode.</p>
         </motion.div>
 
         <motion.div className="feature-card glass-card" variants={itemVariants} style={{ padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem", transition: "transform 0.3s ease", cursor: "default" }} whileHover={{ y: -5 }}>
           <div className="feature-icon" style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>🤝</div>
-          <h3 style={{ fontSize: "1.2rem", fontWeight: "600" }}>Taste Match AI</h3>
-          <p style={{ color: "var(--text-secondary)", lineHeight: "1.5" }}>Our proprietary algorithm analyzes your ratings and reviews to connect you with users who share your exact entertainment vibe.</p>
-        </motion.div>
-
-        <motion.div className="feature-card glass-card" variants={itemVariants} style={{ padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem", transition: "transform 0.3s ease", cursor: "default" }} whileHover={{ y: -5 }}>
-          <div className="feature-icon" style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>🌟</div>
-          <h3 style={{ fontSize: "1.2rem", fontWeight: "600" }}>Reviews & Community</h3>
-          <p style={{ color: "var(--text-secondary)", lineHeight: "1.5" }}>Drop honest reviews, mark spoilers, and engage with community thoughts. Your voice matters here.</p>
+          <h3 style={{ fontSize: "1.2rem", fontWeight: "600" }}>Taste Match & Compare</h3>
+          <p style={{ color: "var(--text-secondary)", lineHeight: "1.5" }}>Our proprietary AI analyzes your ratings to find your exact entertainment vibe. Instantly compare your profile side-by-side with friends.</p>
         </motion.div>
 
         <motion.div className="feature-card glass-card" variants={itemVariants} style={{ padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem", transition: "transform 0.3s ease", cursor: "default" }} whileHover={{ y: -5 }}>
           <div className="feature-icon" style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>🎵</div>
-          <h3 style={{ fontSize: "1.2rem", fontWeight: "600" }}>In-App Music</h3>
-          <p style={{ color: "var(--text-secondary)", lineHeight: "1.5" }}>Listen to trending songs, tracks, and album previews directly within your feed without opening another app.</p>
+          <h3 style={{ fontSize: "1.2rem", fontWeight: "600" }}>Spotify Integration</h3>
+          <p style={{ color: "var(--text-secondary)", lineHeight: "1.5" }}>Preview trending tracks directly in your feed with our built-in player, or open them instantly in the Spotify app with one click.</p>
         </motion.div>
 
         <motion.div className="feature-card glass-card" variants={itemVariants} style={{ padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem", transition: "transform 0.3s ease", cursor: "default" }} whileHover={{ y: -5 }}>
           <div className="feature-icon" style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>🎭</div>
           <h3 style={{ fontSize: "1.2rem", fontWeight: "600" }}>Character Spotlights</h3>
-          <p style={{ color: "var(--text-secondary)", lineHeight: "1.5" }}>Flex your all-time favorite characters, or openly highlight the "Most Disliked" characters you absolutely despise.</p>
+          <p style={{ color: "var(--text-secondary)", lineHeight: "1.5" }}>Flex your all-time favorite characters on your profile, or openly highlight the "Most Disliked" characters you absolutely despise.</p>
+        </motion.div>
+
+        <motion.div className="feature-card glass-card" variants={itemVariants} style={{ padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem", transition: "transform 0.3s ease", cursor: "default" }} whileHover={{ y: -5 }}>
+          <div className="feature-icon" style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>📚</div>
+          <h3 style={{ fontSize: "1.2rem", fontWeight: "600" }}>Smart Filtering</h3>
+          <p style={{ color: "var(--text-secondary)", lineHeight: "1.5" }}>Build watchlists and collections, and instantly sort or filter your entire library by specific genres, ratings, or date logged.</p>
+        </motion.div>
+
+        <motion.div className="feature-card glass-card" variants={itemVariants} style={{ padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem", transition: "transform 0.3s ease", cursor: "default" }} whileHover={{ y: -5 }}>
+          <div className="feature-icon" style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>🔒</div>
+          <h3 style={{ fontSize: "1.2rem", fontWeight: "600" }}>Privacy Controls</h3>
+          <p style={{ color: "var(--text-secondary)", lineHeight: "1.5" }}>Make your account private, manage incoming follow requests, and control exactly who gets to see your entertainment diary.</p>
         </motion.div>
       </motion.div>
 

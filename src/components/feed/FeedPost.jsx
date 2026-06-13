@@ -17,8 +17,32 @@ import { getGenreColor } from "../../lib/colors";
 
 const commentsTransition = { duration: 0.28, ease: [0.4, 0, 0.2, 1] };
 
+function RatingBadge({ rating }) {
+  if (rating == null || rating === "") return null;
+  const r = parseFloat(rating);
+  const color =
+    r >= 8.5 ? "#4ade80" :
+    r >= 7   ? "#fbbf24" :
+    r >= 5   ? "#fb923c" :
+               "#f87171";
+  return (
+    <span style={{
+      display: "inline-flex", alignItems: "center", gap: "3px",
+      padding: "3px 8px", borderRadius: "6px",
+      background: "rgba(0,0,0,0.5)",
+      border: `1px solid ${color}55`,
+      color, fontSize: "0.8rem", fontWeight: "800",
+      backdropFilter: "blur(6px)",
+      letterSpacing: "0.02em",
+    }}>
+      <span style={{ fontSize: "0.72rem" }}>★</span>{r.toFixed(1)}
+    </span>
+  );
+}
+
 function FeedPost({ post, onChanged }) {
   const { isAuthenticated } = useAuth();
+  const [posterHovered, setPosterHovered] = useState(false);
   const movie = post.movie;
   const author = post.user;
   const isMusic = post.type === "music" || movie?.type === "music";
@@ -32,6 +56,7 @@ function FeedPost({ post, onChanged }) {
   const [commentText, setCommentText] = useState("");
   const [likesOpen, setLikesOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [localFollowing, setLocalFollowing] = useState(post.isFollowing);
 
   const handleLike = async () => {
     if (!isAuthenticated) {
@@ -103,11 +128,59 @@ function FeedPost({ post, onChanged }) {
       <motion.article
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        className={`glass-card feed-card feed-post ${post.isFollowing ? "feed-post-following" : ""}`}
+        whileHover={{ y: -2, boxShadow: "0 12px 40px rgba(0,0,0,0.5)" }}
+        transition={{ duration: 0.2 }}
+        className={`glass-card feed-card feed-post ${localFollowing ? "feed-post-following" : ""}`}
       >
         <header className="feed-post-header">
           <Link to={`/profile/${author?.username}`} className="feed-author">
-            <Avatar name={author?.name} src={author?.avatar} size={36} />
+            <div style={{ position: "relative", flexShrink: 0 }}>
+              <div style={{
+                position: "absolute", inset: "-2px", borderRadius: "0.7rem",
+                background: "linear-gradient(135deg, rgba(255,42,133,0.2), rgba(120,80,255,0.2))",
+                filter: "blur(4px)", zIndex: 0,
+              }} />
+              <div style={{ position: "relative", zIndex: 1, borderRadius: "0.6rem", overflow: "hidden", border: "1.5px solid rgba(255,255,255,0.08)" }}>
+                <Avatar name={author?.name} src={author?.avatar} size={36} />
+              </div>
+              
+              {/* Top Badges Overlay */}
+              {author?.topBadges?.length > 0 && (
+                <div style={{ 
+                  position: "absolute", top: "-4px", right: "-4px", 
+                  display: "flex", gap: "2px", zIndex: 2 
+                }}>
+                  {author.topBadges.slice(0, 2).map((badge, i) => {
+                    const glowSpread = badge.tierName === 'diamond' ? '9px' : badge.tierName === 'gold' ? '6px' : badge.tierName === 'silver' ? '3px' : '0';
+                    const shadow = badge.tierName === 'bronze'
+                      ? 'inset 0 0 2px rgba(255,255,255,0.3)'
+                      : badge.tierName === 'heroic'
+                      ? `0 0 12px ${badge.glow}, 0 0 20px ${badge.glow}, inset 0 0 4px rgba(255,255,255,0.6)`
+                      : `0 0 ${glowSpread} ${badge.glow}, inset 0 0 2px rgba(255,255,255,0.3)`;
+                      
+                    return (
+                      <div
+                        key={badge.trackId}
+                        title={`${badge.tierName.toUpperCase()} - ${badge.trackId}`}
+                        style={{
+                          width: "16px", height: "16px",
+                          borderRadius: "50%",
+                          background: badge.bg,
+                          border: `1px solid ${badge.border}`,
+                          boxShadow: shadow,
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          fontSize: "0.55rem",
+                          zIndex: 2 - i,
+                          marginLeft: i > 0 ? "-6px" : "0"
+                        }}
+                      >
+                        {badge.icon}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
             <div>
               <strong>{author?.name}</strong>
               <span>@{author?.username}</span>
@@ -115,7 +188,12 @@ function FeedPost({ post, onChanged }) {
           </Link>
           <div className="feed-header-actions">
             {!post.isOwnPost ? (
-              <FollowButton username={author?.username} initialFollowing={post.isFollowing} compact />
+              <FollowButton
+                username={author?.username}
+                initialFollowing={post.isFollowing}
+                compact
+                onChange={({ following }) => setLocalFollowing(following)}
+              />
             ) : null}
             {post.isOwnPost ? (
               <PostOwnerToolbar post={post} onChanged={onChanged} menuOnly />
@@ -125,9 +203,24 @@ function FeedPost({ post, onChanged }) {
 
         {!isMusic ? (
           <div className="feed-post-main-layout">
-            <Link to={buildTitleLink(post)} className="feed-post-poster-link">
+            <Link
+              to={buildTitleLink(post)}
+              className="feed-post-poster-link"
+              onMouseEnter={() => setPosterHovered(true)}
+              onMouseLeave={() => setPosterHovered(false)}
+              style={{ borderRadius: "0.6rem", overflow: "hidden", display: "block", flexShrink: 0 }}
+            >
               {(movie?.poster || movie?.backdrop) ? (
-                <img src={movie.poster || movie.backdrop} alt={movie?.title || post.title} className="feed-post-poster" />
+                <img
+                  src={movie.poster || movie.backdrop}
+                  alt={movie?.title || post.title}
+                  className="feed-post-poster"
+                  style={{
+                    transition: "transform 0.35s ease",
+                    transform: posterHovered ? "scale(1.06)" : "scale(1)",
+                    display: "block",
+                  }}
+                />
               ) : (
                 <div className="feed-post-poster feed-post-poster-fallback">No image</div>
               )}
@@ -187,32 +280,30 @@ function FeedPost({ post, onChanged }) {
                   </button>
                 </div>
                 <div className="feed-post-footer-right">
-                  <span className="feed-date">
-                    {new Date(post.watchedOn || post.createdAt).toLocaleDateString()}
-                  </span>
-                  <PostRatingBadge rating={post.rating} />
-                </div>
+                    <span className="feed-date">
+                      {new Date(post.watchedOn || post.createdAt).toLocaleDateString()}
+                    </span>
+                    <RatingBadge rating={post.rating} />
+                  </div>
               </footer>
             </div>
           </div>
         ) : (
           <>
             <div className="feed-post-body feed-post-body-music">
-              <MusicPostExtras post={post} showTitle linkTitle showRating />
+              <MusicPostExtras
+                post={post}
+                showTitle
+                linkTitle
+                showRating
+                date={new Date(post.watchedOn || post.createdAt).toLocaleDateString()}
+              />
               {post.note ? (
                 <div className="feed-review-block" style={{ marginTop: "1rem" }}>
                   <p className="feed-note">{post.note}</p>
                 </div>
               ) : null}
             </div>
-
-            <footer className="feed-post-footer feed-actions">
-              <div className="feed-post-footer-main">
-                <span className="feed-date">
-                  {new Date(post.watchedOn || post.createdAt).toLocaleDateString()}
-                </span>
-              </div>
-            </footer>
           </>
         )}
 

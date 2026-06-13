@@ -15,6 +15,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminRoute from "./components/auth/AdminRoute";
 import AboutPage from "./pages/AboutPage";
+import ReelsPage from "./pages/ReelsPage";
 
 function App() {
   useEffect(() => {
@@ -25,6 +26,7 @@ function App() {
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/reels" element={<ReelsPage />} />
       <Route element={<MainLayout />}>
         <Route element={<AnimatedOutlet />}>
           <Route path="/" element={<HomePage />} />
