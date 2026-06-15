@@ -49,6 +49,8 @@ function LoginPage() {
         <p className="auth-subtitle">Sign in with your CineTrack account.</p>
 
         <input
+          id="login-email"
+          name="email"
           required
           type="email"
           placeholder="Email"
@@ -56,6 +58,8 @@ function LoginPage() {
           onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
         <input
+          id="login-password"
+          name="password"
           required
           type="password"
           placeholder="Password"

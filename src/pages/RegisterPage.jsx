@@ -53,10 +53,12 @@ function RegisterPage() {
         <h2>Create your CineTrack account</h2>
         <p className="auth-subtitle">Join the community and start your movie diary.</p>
 
-        <input required placeholder="Full name" value={form.name} onChange={update("name")} />
-        <input required placeholder="Username (e.g. arivera_cine)" value={form.username} onChange={update("username")} />
-        <input required type="email" placeholder="Email" value={form.email} onChange={update("email")} />
+        <input id="register-name" name="name" required placeholder="Full name" value={form.name} onChange={update("name")} />
+        <input id="register-username" name="username" required placeholder="Username (e.g. arivera_cine)" value={form.username} onChange={update("username")} />
+        <input id="register-email" name="email" required type="email" placeholder="Email" value={form.email} onChange={update("email")} />
         <input
+          id="register-password"
+          name="password"
           required
           type="password"
           minLength={6}
