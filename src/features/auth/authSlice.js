@@ -5,15 +5,15 @@ const STORAGE_KEY = "cinetrack_auth";
 const loadStoredAuth = () => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : { user: null, token: null };
+    return raw ? JSON.parse(raw) : { user: null };
   } catch {
-    return { user: null, token: null };
+    return { user: null };
   }
 };
 
 const persistAuth = (state) => {
-  if (state.token) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  if (state.user) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ user: state.user }));
   } else {
     localStorage.removeItem(STORAGE_KEY);
   }
@@ -27,7 +27,6 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (state, action) => {
       state.user = action.payload.user;
-      state.token = action.payload.token;
       persistAuth(state);
     },
     updateUser: (state, action) => {
@@ -38,7 +37,6 @@ const authSlice = createSlice({
     },
     logout: (state) => {
       state.user = null;
-      state.token = null;
       persistAuth(state);
     },
   },
@@ -46,8 +44,7 @@ const authSlice = createSlice({
 
 export const { setCredentials, updateUser, logout } = authSlice.actions;
 export const selectCurrentUser = (state) => state.auth.user;
-export const selectToken = (state) => state.auth.token;
-export const selectIsAuthenticated = (state) => Boolean(state.auth.token);
+export const selectIsAuthenticated = (state) => Boolean(state.auth.user);
 export const selectIsAdmin = (state) => state.auth.user?.role === "admin";
 
 export default authSlice.reducer;

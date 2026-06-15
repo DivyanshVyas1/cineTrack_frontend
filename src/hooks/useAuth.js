@@ -4,25 +4,32 @@ import {
   selectCurrentUser,
   selectIsAdmin,
   selectIsAuthenticated,
-  selectToken,
   setCredentials,
   updateUser,
 } from "../features/auth/authSlice";
+import client from "../api/client";
 
 export function useAuth() {
   const dispatch = useDispatch();
   const user = useSelector(selectCurrentUser);
-  const token = useSelector(selectToken);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const isAdmin = useSelector(selectIsAdmin);
 
   return {
     user,
-    token,
     isAuthenticated,
     isAdmin,
     login: (payload) => dispatch(setCredentials(payload)),
-    logout: () => dispatch(logoutAction()),
+    logout: async () => {
+      try {
+        await client.post("/auth/logout");
+      } catch (err) {
+        console.error("Logout failed:", err);
+      } finally {
+        dispatch(logoutAction());
+        window.location.reload(); // Hard reload to clear all states
+      }
+    },
     updateUser: (payload) => dispatch(updateUser(payload)),
   };
 }

@@ -296,7 +296,7 @@ function ProfileHero({
                 </div>
 
                 {/* Compare button — underneath */}
-                {tasteMatchPercent != null ? (
+                {tasteMatchPercent != null && canViewContent ? (
                   <motion.button
                     type="button"
                     onClick={onCompareProfile}

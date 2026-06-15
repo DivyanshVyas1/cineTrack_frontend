@@ -51,28 +51,35 @@ function CompareModal({ open, onClose, username }) {
       btns.forEach(b => { b.style.opacity = "1"; });
 
       canvas.toBlob(async (blob) => {
-        const file = new File([blob], "cinetrack-compare.png", { type: "image/png" });
-        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-          await navigator.share({
-            title: "CineTrack – Taste Compare",
-            text: `Check out our taste comparison on CineTrack! 🎬`,
-            files: [file],
-          });
-        } else {
-          // Fallback: download the image
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "cinetrack-compare.png";
-          a.click();
-          URL.revokeObjectURL(url);
-          toast.success("Image saved! Share it on Instagram.");
+        try {
+          const file = new File([blob], "cinetrack-compare.png", { type: "image/png" });
+          if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              title: "CineTrack – Taste Compare",
+              text: `Check out our taste comparison on CineTrack! 🎬`,
+              files: [file],
+            });
+          } else {
+            throw new Error("Share not supported");
+          }
+        } catch (shareErr) {
+          if (shareErr.name !== "AbortError") {
+            // Fallback: download the image if sharing fails or isn't supported
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "cinetrack-compare.png";
+            a.click();
+            URL.revokeObjectURL(url);
+            toast.success("Image saved! You can now share it.");
+          }
+        } finally {
+          setSharing(false);
         }
-        setSharing(false);
       }, "image/png");
     } catch (err) {
       setSharing(false);
-      if (err.name !== "AbortError") toast.error("Couldn't capture screenshot.");
+      toast.error("Couldn't capture screenshot.");
     }
   };
 

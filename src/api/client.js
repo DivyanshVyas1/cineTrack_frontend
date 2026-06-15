@@ -2,29 +2,17 @@ import axios from "axios";
 
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "/api",
-});
-
-client.interceptors.request.use((config) => {
-  try {
-    const raw = localStorage.getItem("cinetrack_auth");
-    if (raw) {
-      const { token } = JSON.parse(raw);
-      if (token) config.headers.Authorization = `Bearer ${token}`;
-    }
-  } catch {
-    /* ignore */
-  }
-  return config;
+  withCredentials: true, // This ensures cookies are sent with every request
 });
 
 client.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Clear token if invalid/expired to prevent getting stuck
+      // If unauthorized, redirect to login or clear auth state
       if (localStorage.getItem("cinetrack_auth")) {
         localStorage.removeItem("cinetrack_auth");
-        window.location.reload(); // Force app to re-evaluate auth state
+        window.location.reload(); 
       }
     }
     return Promise.reject(error);

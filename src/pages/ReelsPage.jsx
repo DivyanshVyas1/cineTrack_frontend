@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import client from '../api/client';
 import { toast } from 'react-toastify';
 import ReelsFeed from '../components/reels/ReelsFeed';
 import '../components/reels/reels.css';
@@ -21,12 +21,10 @@ function ReelsPage() {
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
   const fetchFeed = async (currentSeenIds = new Set()) => {
-    const token = localStorage.getItem('token');
     // Pass already-shown IDs so backend skips them from cache
     const exclude = currentSeenIds.size > 0 ? [...currentSeenIds].join(',') : '';
-    const response = await axios.get(`${API_URL}/shorts/feed`, {
-      params: { query, ...(exclude ? { exclude } : {}) },
-      headers: token ? { Authorization: `Bearer ${token}` } : {}
+    const response = await client.get(`/shorts/feed`, {
+      params: { query, ...(exclude ? { exclude } : {}) }
     });
     return response.data;
   };
