@@ -5,15 +5,15 @@ const STORAGE_KEY = "cinetrack_auth";
 const loadStoredAuth = () => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : { user: null };
+    return raw ? JSON.parse(raw) : { user: null, token: null };
   } catch {
-    return { user: null };
+    return { user: null, token: null };
   }
 };
 
 const persistAuth = (state) => {
-  if (state.user) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ user: state.user }));
+  if (state.user && state.token) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ user: state.user, token: state.token }));
   } else {
     localStorage.removeItem(STORAGE_KEY);
   }
@@ -27,6 +27,7 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (state, action) => {
       state.user = action.payload.user;
+      state.token = action.payload.token;
       persistAuth(state);
     },
     updateUser: (state, action) => {
@@ -37,6 +38,7 @@ const authSlice = createSlice({
     },
     logout: (state) => {
       state.user = null;
+      state.token = null;
       persistAuth(state);
     },
   },

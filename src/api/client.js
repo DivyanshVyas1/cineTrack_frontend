@@ -5,11 +5,25 @@ const client = axios.create({
   withCredentials: true, // This ensures cookies are sent with every request
 });
 
+client.interceptors.request.use((config) => {
+  try {
+    const raw = localStorage.getItem("cinetrack_auth");
+    if (raw) {
+      const { token } = JSON.parse(raw);
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+  } catch (err) {
+    // Ignore parse errors
+  }
+  return config;
+});
+
 client.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // If unauthorized, redirect to login or clear auth state
       if (localStorage.getItem("cinetrack_auth")) {
         localStorage.removeItem("cinetrack_auth");
         window.location.reload(); 
