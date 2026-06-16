@@ -14,14 +14,6 @@ function LeftSidebar({
   const { user, isAuthenticated } = useAuth();
   const [filtersOpen, setFiltersOpen] = useState(false);
 
-  if (!isAuthenticated || !user?.username) {
-    return (
-      <aside className="glass-card panel sidebar-card">
-        <p className="sidebar-muted">Sign in to open your profile and taste matches.</p>
-      </aside>
-    );
-  }
-
   return (
     <div className="left-sidebar-stack">
       <div style={{ display: "flex", gap: "0.8rem", alignItems: "stretch", marginBottom: "0" }}>
@@ -63,29 +55,56 @@ function LeftSidebar({
           </div>
         </aside>
 
-        <Link
-          to={`/profile/${user.username}`}
-          className="glass-card"
-          style={{
-            flex: 1,
-            margin: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-            textDecoration: "none",
-            color: "var(--text)",
-            fontWeight: "600",
-            padding: "0.8rem"
-          }}
-        >
-          Your Profile
-        </Link>
+        {isAuthenticated && user?.username ? (
+          <Link
+            to={`/profile/${user.username}`}
+            className="glass-card"
+            style={{
+              flex: 1,
+              margin: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+              textDecoration: "none",
+              color: "var(--text)",
+              fontWeight: "600",
+              padding: "0.8rem"
+            }}
+          >
+            Your Profile
+          </Link>
+        ) : (
+          <Link
+            to="/about"
+            className="glass-card"
+            style={{
+              flex: 1,
+              margin: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+              textDecoration: "none",
+              color: "var(--text)",
+              fontWeight: "600",
+              padding: "0.8rem"
+            }}
+          >
+            About
+          </Link>
+        )}
       </div>
 
-      <aside className="glass-card panel sidebar-taste-card">
-        <TasteMatchSuggestions suggestions={tasteSuggestions} />
-      </aside>
+      {isAuthenticated && user?.username ? (
+        <aside className="glass-card panel sidebar-taste-card">
+          <TasteMatchSuggestions suggestions={tasteSuggestions} />
+        </aside>
+      ) : (
+        <aside className="glass-card panel sidebar-card">
+          <p className="sidebar-muted">Sign in to open your profile and taste matches.</p>
+        </aside>
+      )}
     </div>
   );
 }

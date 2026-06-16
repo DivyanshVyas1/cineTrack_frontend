@@ -150,7 +150,13 @@ function ProfilePage() {
         requestsOpen={requestsOpen}
         onToggleFollowRequests={() => setRequestsOpen((v) => !v)}
         onEditProfile={() => setEditOpen(true)}
-        onCompareProfile={() => setCompareOpen(true)}
+        onCompareProfile={() => {
+          if (!currentUser) {
+            toast.info("Sign in to compare taste");
+            return;
+          }
+          setCompareOpen(true);
+        }}
         onOpenAchievements={() => setAchievementsOpen(true)}
         onShowFollowList={canViewContent ? setFollowListType : undefined}
         requestsPanel={

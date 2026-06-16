@@ -1910,11 +1910,11 @@
 }
 .discover-titles-row {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 1rem;
 }
 .discover-songs-row {
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
 }
 .discover-title-card {
   display: flex;
@@ -1960,6 +1960,16 @@
   margin: 0;
   font-size: 0.78rem;
   color: var(--text-secondary);
+}
+
+/* New vertical card grid */
+.discover-titles-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 1rem;
+}
+.discover-songs-row {
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
 }
 .feed-title-link {
   flex: 1;
@@ -2629,19 +2639,6 @@
   background: linear-gradient(145deg, rgba(30, 30, 40, 0.7), rgba(20, 20, 25, 0.9));
 }
 
-.about-header h1 {
-  font-size: 3rem;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.about-header .subtitle {
-  font-size: 1.2rem;
-  color: var(--text-muted);
-}
-
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -2698,6 +2695,12 @@
   
   .about-header .subtitle {
     font-size: 0.9rem;
+  }
+
+  /* Collapse the 2-col feature showcase to single column on mobile */
+  .about-feature-row {
+    grid-template-columns: 1fr !important;
+    direction: ltr !important;
   }
 }
 
