@@ -164,50 +164,55 @@ export default function AchievementsModal({ open, onClose, username, initialData
                           <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "linear-gradient(90deg, #ef4444, #eab308, #ef4444)", backgroundSize: "200% auto", animation: "gradientShift 3s linear infinite" }} />
                         )}
 
-                        {/* Track header row */}
-                        <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.1rem" }}>
+                        {/* Track header */}
+                        <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start", marginBottom: "1rem", paddingRight: "5rem" }}>
                           {/* Icon */}
                           <div style={{
-                            fontSize: "1.75rem",
-                            width: "52px", height: "52px", flexShrink: 0,
+                            fontSize: "1.4rem",
+                            width: "44px", height: "44px", flexShrink: 0,
                             display: "flex", alignItems: "center", justifyContent: "center",
-                            borderRadius: "14px",
+                            borderRadius: "12px",
                             background: tierName
                               ? `linear-gradient(135deg, ${TIER_META[tierName].bg}, rgba(255,255,255,0.03))`
                               : "rgba(255,255,255,0.04)",
                             border: tierName
                               ? `1px solid ${TIER_META[tierName].border}`
                               : "1px solid rgba(255,255,255,0.07)",
-                            boxShadow: tierName ? `0 0 20px ${activeGlow}` : "none",
+                            boxShadow: tierName ? `0 0 16px ${activeGlow}` : "none",
                           }}>
                             {track.icon}
                           </div>
 
-                          {/* Title + desc */}
+                          {/* Title + badge + desc */}
                           <div style={{ flex: 1, minWidth: 0 }}>
-                            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "0.4rem", marginBottom: "0.25rem" }}>
-                              <h3 style={{ margin: 0, fontSize: "1rem", fontWeight: 800, color: "#fff" }}>{track.title}</h3>
-                              {tierName && (
-                                <span style={{
-                                  fontSize: "0.62rem", fontWeight: 900, letterSpacing: "1.5px",
-                                  padding: "0.2rem 0.6rem", borderRadius: "100px",
-                                  background: TIER_META[tierName].bg, border: `1px solid ${TIER_META[tierName].border}`,
-                                  color: activeColor,
-                                }}>
-                                  {TIER_META[tierName].emoji} {TIER_META[tierName].label}
-                                </span>
-                              )}
-                            </div>
-                            <p style={{ margin: 0, fontSize: "0.78rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.4 }}>{track.description}</p>
+                            <h3 style={{ margin: "0 0 0.3rem", fontSize: "0.95rem", fontWeight: 800, color: "#fff", lineHeight: 1.2 }}>
+                              {track.title}
+                            </h3>
+                            {tierName && (
+                              <span style={{
+                                display: "inline-flex", alignItems: "center", gap: "3px",
+                                fontSize: "0.6rem", fontWeight: 900, letterSpacing: "1.2px",
+                                padding: "0.18rem 0.55rem", borderRadius: "100px",
+                                background: TIER_META[tierName].bg, border: `1px solid ${TIER_META[tierName].border}`,
+                                color: activeColor, marginBottom: "0.3rem",
+                              }}>
+                                {TIER_META[tierName].emoji} {TIER_META[tierName].label}
+                              </span>
+                            )}
+                            <p style={{ margin: 0, fontSize: "0.73rem", color: "rgba(255,255,255,0.38)", lineHeight: 1.35 }}>
+                              {track.description}
+                            </p>
                           </div>
+                        </div>
 
-                          {/* Count */}
-                          <div style={{ textAlign: "right", flexShrink: 0 }}>
-                            <span style={{ fontSize: "1.8rem", fontWeight: 900, color: activeColor, textShadow: `0 0 20px ${activeGlow}`, lineHeight: 1 }}>
-                              {currentCount}
-                            </span>
-                            <span style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.3)" }}> / {maxTarget}</span>
-                          </div>
+                        {/* Count — absolute top-right */}
+                        <div style={{ position: "absolute", top: "1rem", right: "1rem", textAlign: "right", whiteSpace: "nowrap" }}>
+                          <span style={{ fontSize: "1.5rem", fontWeight: 900, color: activeColor, textShadow: `0 0 16px ${activeGlow}`, lineHeight: 1 }}>
+                            {currentCount}
+                          </span>
+                          <span style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.35)", marginLeft: "2px" }}>
+                            / {maxTarget}
+                          </span>
                         </div>
 
                         {/* Progress bar */}

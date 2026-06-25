@@ -2712,3 +2712,313 @@
   text-align: center;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+/* ====================================================
+   TITLE DETAILS PAGE (TDP) — Gen-Z Premium UI
+   ==================================================== */
+
+.tdp-page {
+  min-height: 100vh;
+  background: #050816;
+}
+
+/* ── Hero ── */
+.tdp-hero {
+  position: relative;
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  padding: 3rem 1.5rem 1rem;
+}
+@media (max-width: 640px) {
+  .tdp-hero { padding: 1.25rem 1rem 0.75rem; }
+}
+.tdp-hero-bottom {
+  max-width: 1100px;
+  margin: 1rem auto 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  flex-wrap: wrap;
+}
+@media (max-width: 640px) {
+  .tdp-hero-bottom {
+    padding: 0.65rem 0.75rem;
+    border-radius: 10px;
+    gap: 0.5rem;
+  }
+}
+.tdp-hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 2.5rem;
+  align-items: flex-end;
+}
+.tdp-hero-inner > *:last-child {
+  min-width: 0;
+  overflow: hidden;
+}
+@media (max-width: 640px) {
+  .tdp-hero-inner {
+    grid-template-columns: 110px 1fr;
+    gap: 0.85rem;
+    align-items: flex-start;
+  }
+}
+
+/* Poster */
+.tdp-poster-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+.tdp-poster {
+  width: 100%;
+  border-radius: 14px;
+  object-fit: cover;
+  aspect-ratio: 2/3;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.07);
+  display: block;
+}
+.tdp-poster-fallback {
+  aspect-ratio: 2/3;
+  background: linear-gradient(135deg, #1e1e2e, #2a2a3e);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: rgba(255,255,255,0.4);
+}
+.tdp-poster-play {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+.tdp-poster-wrap:hover .tdp-poster-play { opacity: 1; }
+.tdp-poster-play > div {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: rgba(239,68,68,0.9);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 30px rgba(239,68,68,0.6);
+}
+
+/* Info column */
+.tdp-genre-chip {
+  font-size: 0.68rem;
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 0.12rem 0.5rem;
+  border-radius: 100px;
+  color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.04);
+  white-space: nowrap;
+}
+.tdp-title {
+  font-size: clamp(1.3rem, 5vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.4rem;
+  color: #fff;
+  line-height: 1.15;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+.tdp-artist {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.55);
+  margin: 0 0 0.5rem;
+}
+.tdp-overview {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.65;
+  margin: 0 0 0.75rem;
+  max-width: 580px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Score row */
+.tdp-score-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.5rem 0;
+  flex-wrap: wrap;
+}
+.tdp-score-badge {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.tdp-score-num {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #f59e0b;
+  text-shadow: 0 0 20px rgba(245,158,11,0.5);
+  line-height: 1;
+}
+.tdp-score-denom {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.35);
+}
+.tdp-score-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-left: 4px;
+}
+.tdp-score-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255,255,255,0.1);
+}
+
+/* Action buttons */
+.tdp-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+.tdp-trailer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.4rem;
+  border-radius: 100px;
+  background: rgba(239,68,68,0.15);
+  border: 1px solid rgba(239,68,68,0.4);
+  color: #ef4444;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.tdp-trailer-btn:hover {
+  background: rgba(239,68,68,0.25);
+  box-shadow: 0 0 20px rgba(239,68,68,0.3);
+}
+.tdp-spotify-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.tdp-spotify-btn:hover {
+  background: rgba(29,185,84,0.15);
+  border-color: rgba(29,185,84,0.4);
+  transform: scale(1.05);
+}
+
+/* ── Body ── */
+.tdp-body {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+@media (max-width: 640px) {
+  .tdp-body { padding: 0.75rem 1rem 3rem; }
+}
+.tdp-section {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+@media (max-width: 640px) {
+  .tdp-section { padding: 1.1rem 0; }
+}
+.tdp-section:last-child {
+  border-bottom: none;
+}
+.tdp-section-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: rgba(255,255,255,0.5);
+  margin: 0 0 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.tdp-section-icon {
+  display: none;
+}
+
+/* ── OTT Chips ── */
+.ott-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1rem 0.55rem 0.6rem;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+.ott-chip:hover {
+  background: rgba(255,255,255,0.09);
+  border-color: rgba(255,255,255,0.16);
+  transform: translateY(-2px);
+}
+
+/* ── Crew pills ── */
+.crew-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem 0.4rem 0.4rem;
+  border-radius: 100px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+/* ── Cast scroll ── */
+.cast-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.cast-scroll::-webkit-scrollbar { display: none; }
+.cast-card { transition: transform 0.15s; }
+.cast-card:hover { transform: translateY(-3px); }
+
+/* ── Similar titles grid ── */
+.similar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 1rem;
+}
+.similar-card {
+  transition: transform 0.15s;
+}
+.similar-card:hover { transform: translateY(-4px); }
+@media (max-width: 480px) {
+  .similar-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
+}

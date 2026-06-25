@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CineTrack — Instagram Slides</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* Animations */
+    @keyframes grain { 0%, 100% { transform: translate(0,0) } 10% { transform: translate(-2%,-3%) } 30% { transform: translate(3%,2%) } 50% { transform: translate(-1%,4%) } 70% { transform: translate(2%,-1%) } 90% { transform: translate(-3%,1%) } }
+    @keyframes auroraPulse { 0%, 100% { opacity: 0.8; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
+    @keyframes ringPulse { 0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.15; } 50% { transform: translate(-50%,-50%) scale(1.04); opacity: 0.25; } }
+    @keyframes logoPulse { 0%, 100% { filter: drop-shadow(0 0 25px rgba(168,85,247,0.5)) drop-shadow(0 0 60px rgba(168,85,247,0.2)); } 50% { filter: drop-shadow(0 0 40px rgba(192,38,211,0.7)) drop-shadow(0 0 80px rgba(168,85,247,0.3)); } }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0a;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 48px;
+      padding: 48px 20px;
+    }
+
+    .label {
+      color: #444;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: -36px;
+    }
+
+    /* Each slide = 1080x1350 (4:5), preview at 540x675 */
+    .slide {
+      width: 540px;
+      height: 675px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      background: #05050f;
+    }
+
+    /* Grain overlay — only slide 1 */
+    #slide1::after {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.045;
+      animation: grain 0.5s steps(1) infinite;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    /* Background image layer */
+    .slide .bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      opacity: 0.35;
+      filter: blur(0.5px) saturate(1.6) brightness(0.85);
+    }
+
+    /* Simple dark overlay for screenshot slides */
+    .slide .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        160deg,
+        rgba(5,5,15,0.55) 0%,
+        rgba(5,5,15,0.3) 50%,
+        rgba(5,5,15,0.6) 100%
+      );
+    }
+
+    /* Content always on top */
+    .slide .content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 48px;
+    }
+
+    .eyebrow {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 5px;
+      color: #c084fc;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .headline {
+      font-size: 48px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .subtext {
+      font-size: 15px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.3px;
+      line-height: 1.6;
+    }
+
+    /* ---- SLIDE 1 specific ---- */
+    /* Deep space dark bg */
+    #slide1 { background: #03030a; }
+
+    /* Animated aurora glow */
+    #slide1 .aurora {
+      position: absolute;
+      inset: 0;
+      animation: auroraPulse 4s ease-in-out infinite;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 48%, rgba(168,85,247,0.28) 0%, transparent 65%),
+        radial-gradient(ellipse 45% 35% at 28% 58%, rgba(99,42,180,0.2) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 35% at 72% 38%, rgba(192,38,211,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse 30% 25% at 50% 80%, rgba(139,92,246,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 90% 70% at 50% 50%, rgba(15,8,40,1) 45%, rgba(3,3,10,1) 100%);
+    }
+
+    /* Dot grid pattern */
+    #slide1 .dotgrid {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(168,85,247,0.12) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.5;
+    }
+
+    /* Outer glowing ring around logo */
+    #slide1 .ring {
+      position: absolute;
+      top: 42%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      border: 1px solid rgba(168,85,247,0.2);
+      animation: ringPulse 4s ease-in-out infinite;
+    }
+    #slide1 .ring2 {
+      position: absolute;
+      top: 42%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      border: 1px solid rgba(168,85,247,0.08);
+      animation: ringPulse 4s ease-in-out infinite 0.5s;
+    }
+
+    /* Horizontal light streaks */
+    #slide1 .streak {
+      position: absolute;
+      top: 42%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 380px;
+      height: 1px;
+      background: linear-gradient(to right, transparent 0%, rgba(192,132,252,0.3) 40%, rgba(192,132,252,0.3) 60%, transparent 100%);
+    }
+    #slide1 .streak2 {
+      position: absolute;
+      top: calc(42% + 16px);
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(192,132,252,0.12), transparent);
+    }
+
+    /* Bottom tagline bar */
+    #slide1 .tagline {
+      position: absolute;
+      bottom: 36px;
+      left: 0; right: 0;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      color: rgba(255,255,255,0.18);
+      text-transform: uppercase;
+    }
+
+    #slide1 .logo {
+      width: 180px;
+      height: 180px;
+      object-fit: contain;
+      margin-bottom: 26px;
+      animation: logoPulse 4s ease-in-out infinite;
+    }
+    #slide1 .introducing {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 8px;
+      color: rgba(192,132,252,0.75);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    #slide1 .brand {
+      font-size: 60px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -2px;
+      text-shadow: 0 2px 40px rgba(168,85,247,0.4), 0 0 80px rgba(168,85,247,0.15);
+    }
+
+    /* ---- SLIDE 2 specific ---- */
+    #slide2 .categories {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-top: 32px;
+    }
+    #slide2 .cat {
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 0 14px;
+    }
+    #slide2 .divider {
+      width: 1px;
+      height: 14px;
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* ---- SLIDE 5 specific — Compare Taste Showcase ---- */
+    #slide5 {
+      background: #03030a;
+      justify-content: flex-start;
+      padding-top: 0;
+    }
+    #slide5 .s5-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 20%, rgba(168,85,247,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 20% 80%, rgba(99,42,180,0.1) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 40% at 80% 70%, rgba(192,38,211,0.08) 0%, transparent 55%);
+    }
+    #slide5 .s5-header {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      text-align: center;
+      padding: 36px 40px 20px;
+    }
+    #slide5 .s5-header .eyebrow {
+      margin-bottom: 6px;
+    }
+    #slide5 .s5-header .headline {
+      font-size: 36px;
+      margin-bottom: 0;
+    }
+    #slide5 .s5-phone {
+      position: relative;
+      z-index: 10;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding-bottom: 8px;
+    }
+    #slide5 .s5-phone .card-wrap {
+      position: relative;
+      width: 380px;
+      height: 400px;
+    }
+    /* Back card - clearly offset RIGHT */
+    #slide5 .s5-phone .card-back {
+      position: absolute;
+      top: 20px;
+      left: 120px;
+      transform: rotate(8deg);
+      width: 200px;
+      height: 340px;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(192,38,211,0.3),
+        0 20px 50px rgba(0,0,0,0.8);
+      opacity: 0.55;
+    }
+    #slide5 .s5-phone .card-back img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+    /* Front card - clearly offset LEFT */
+    #slide5 .s5-phone .card-front {
+      position: absolute;
+      top: 0;
+      left: 20px;
+      transform: rotate(-6deg);
+      width: 215px;
+      height: 360px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1.5px rgba(168,85,247,0.5),
+        0 30px 80px rgba(0,0,0,0.9),
+        0 0 50px rgba(168,85,247,0.25),
+        0 0 120px rgba(168,85,247,0.1);
+    }
+    #slide5 .s5-phone .card-front img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+    /* VS badge in middle */
+    #slide5 .s5-phone .vs-badge {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7c3aed, #c026d3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.5px;
+      z-index: 20;
+      box-shadow: 0 0 20px rgba(168,85,247,0.6), 0 4px 12px rgba(0,0,0,0.5);
+    }
+    /* Subtle glow under phone */
+    #slide5 .s5-glow {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 20px;
+      background: rgba(168,85,247,0.25);
+      filter: blur(20px);
+      border-radius: 50%;
+      z-index: 9;
+    }
+    #slide5 .s5-watermark {
+      position: absolute;
+      bottom: 20px;
+      right: 24px;
+      z-index: 15;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.35;
+    }
+    #slide5 .s5-watermark img { width: 16px; height: 16px; object-fit: contain; }
+    #slide5 .s5-watermark span { font-size: 10px; font-weight: 600; color: #fff; letter-spacing: 1.5px; text-transform: uppercase; }
+    .slide-with-bg .headline {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+    .slide-with-bg .three-words {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 28px;
+    }
+    .slide-with-bg .word-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .slide-with-bg .word-row .bar {
+      width: 28px;
+      height: 2px;
+      background: #c084fc;
+      border-radius: 2px;
+    }
+    .slide-with-bg .word-row span {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+
+    /* CineTrack logo watermark bottom right */
+    .watermark {
+      position: absolute;
+      bottom: 24px;
+      right: 28px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.5;
+    }
+    .watermark img {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+    }
+    .watermark span {
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <p class="label">Slide 1 — Screenshot this square</p>
+
+  <!-- SLIDE 1: Intro (no bg image, pure dark) -->
+  <div class="slide" id="slide1">
+    <div class="aurora"></div>
+    <div class="dotgrid"></div>
+    <div class="ring"></div>
+    <div class="ring2"></div>
+    <div class="streak"></div>
+    <div class="streak2"></div>
+    <div class="content">
+      <img class="logo" src="logo.png" alt="CineTrack Logo" />
+      <p class="introducing">Introducing</p>
+      <h1 class="brand">CineTrack</h1>
+    </div>
+    <div class="tagline">Your Entertainment Universe</div>
+  </div>
+
+  <p class="label">Slide 2 — Screenshot this square</p>
+
+  <!-- SLIDE 2: Track Everything (library as faded bg) -->
+  <div class="slide" id="slide2">
+    <img class="bg-img" src="library.jpeg" alt="" />
+    <div class="overlay"></div>
+    <div class="content">
+      <p class="eyebrow">Your Entertainment Universe</p>
+      <h2 class="headline">Track<br>everything.</h2>
+      <div class="categories">
+        <span class="cat">Movies</span>
+        <span class="divider"></span>
+        <span class="cat">Shows</span>
+        <span class="divider"></span>
+        <span class="cat">Music</span>
+        <span class="divider"></span>
+        <span class="cat">Books</span>
+      </div>
+    </div>
+    <div class="watermark">
+      <img src="logo.png" alt="" />
+      <span>CineTrack</span>
+    </div>
+  </div>
+
+  <p class="label">Slide 3 — Screenshot this square</p>
+
+  <!-- SLIDE 3: Discover / Library -->
+  <div class="slide slide-with-bg" id="slide3">
+    <img class="bg-img" src="library.jpeg" alt="" style="object-position: center bottom;" />
+    <div class="overlay"></div>
+    <div class="content">
+      <p class="eyebrow">Discover</p>
+      <h2 class="headline">Your Library.</h2>
+      <div class="three-words">
+        <div class="word-row"><div class="bar"></div><span>Rate</span></div>
+        <div class="word-row"><div class="bar"></div><span>Review</span></div>
+        <div class="word-row"><div class="bar"></div><span>Explore</span></div>
+      </div>
+    </div>
+    <div class="watermark">
+      <img src="logo.png" alt="" />
+      <span>CineTrack</span>
+    </div>
+  </div>
+
+  <p class="label">Slide 4 — Screenshot this square</p>
+
+  <!-- SLIDE 4: Profile -->
+  <div class="slide slide-with-bg" id="slide4">
+    <img class="bg-img" src="userProfile.jpeg" alt="" style="opacity: 0.35; object-position: center 85%;" />
+    <div class="overlay"></div>
+    <div class="content">
+      <p class="eyebrow">Your Profile</p>
+      <h2 class="headline">Your Stats.<br>Your Identity.</h2>
+      <div class="three-words">
+        <div class="word-row"><div class="bar"></div><span>Rate</span></div>
+        <div class="word-row"><div class="bar"></div><span>Review</span></div>
+        <div class="word-row"><div class="bar"></div><span>Remember</span></div>
+      </div>
+    </div>
+    <div class="watermark">
+      <img src="logo.png" alt="" />
+      <span>CineTrack</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: Compare Taste — Floating Phone Showcase -->
+  <div class="slide" id="slide5">
+    <div class="s5-bg"></div>
+    <div class="s5-header">
+      <p class="eyebrow">Social</p>
+      <h2 class="headline">Follow. Discover. Compare.</h2>
+    </div>
+    <div class="s5-phone">
+      <div class="card-wrap">
+        <div class="card-back"><img src="compareTaste.jpeg" alt="" /></div>
+        <div class="card-front"><img src="compareTaste.jpeg" alt="Compare Taste UI" /></div>
+      </div>
+    </div>
+    <div class="s5-glow"></div>
+    <div class="s5-watermark">
+      <img src="logo.png" alt="" />
+      <span>CineTrack</span>
+    </div>
+  </div>
+
+</body>
+</html>
+
+

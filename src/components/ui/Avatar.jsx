@@ -2,13 +2,15 @@ function Avatar({ name, src, size = 40 }) {
   const initial = name?.charAt(0)?.toUpperCase() || "?";
 
   if (src) {
+    const imageSrc = src ? (src + (src.includes("?") ? "&" : "?") + "cors=1") : "";
     return (
       <img
         className="avatar avatar-img"
-        src={src}
+        src={imageSrc}
         alt={name || "Profile"}
         width={size}
         height={size}
+        crossOrigin="anonymous"
         style={{ width: size, height: size }}
       />
     );

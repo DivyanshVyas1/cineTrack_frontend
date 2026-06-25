@@ -30,7 +30,7 @@ function TasteMatchSuggestions({ suggestions = [] }) {
       <h4>Taste matches</h4>
       <p className="sidebar-muted" style={{ marginBottom: "0.6rem" }}>Based on shared genres and ratings</p>
       <ul className="taste-match-list">
-        {suggestions.map((entry) => {
+        {suggestions.slice(0, 4).map((entry) => {
           const percent = entry.tasteMatchPercent;
           return (
             <li key={entry.user._id}>

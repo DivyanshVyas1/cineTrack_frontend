@@ -42,7 +42,7 @@ function CompareModal({ open, onClose, username }) {
 
       const canvas = await html2canvas(cardRef.current, {
         useCORS: true,
-        allowTaint: true,
+        allowTaint: false,
         scale: 2,
         backgroundColor: null,
         logging: false,
@@ -355,7 +355,7 @@ function CompareModal({ open, onClose, username }) {
                       <div style={{ flex: 1, minHeight: 0, display: "flex", gap: `${8 * scale}px`, justifyContent: "center", alignItems: "center" }}>
                         {data.commonPicks.slice(0, 4).map(p => (
                           <div key={p.title} style={{ height: "100%", aspectRatio: "2/3", maxWidth: "23%", minWidth: 0, display: "flex", justifyContent: "center" }}>
-                            <img src={p.poster} alt={p.title} title={p.title} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: `${6 * scale}px`, boxShadow: "0 6px 20px rgba(0,0,0,0.7)" }} />
+                            <img src={p.poster ? (p.poster + (p.poster.includes("?") ? "&" : "?") + "cors=1") : ""} alt={p.title} title={p.title} crossOrigin="anonymous" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: `${6 * scale}px`, boxShadow: "0 6px 20px rgba(0,0,0,0.7)" }} />
                           </div>
                         ))}
                       </div>
