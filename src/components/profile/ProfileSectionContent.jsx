@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { profileListItemVariants, profilePanelTransition } from "../../lib/motion";
-import { buildTitleLink } from "../../lib/titleLink";
+import { profileListItemVariants, profilePanelTransition } from "../../utils/motion";
+import { buildTitleLink } from "../../utils/titleLink";
 import GenreBreakdown from "./GenreBreakdown";
 import PostCard from "./PostCard";
 import FeedPost from "../feed/FeedPost";

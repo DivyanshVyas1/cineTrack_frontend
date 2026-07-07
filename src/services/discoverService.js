@@ -1,4 +1,4 @@
-import client from "../api/client";
+import client from "./client";
 
 export const fetchTrendingCharacters = async () => {
   const { data } = await client.get("/discover/trending-characters");

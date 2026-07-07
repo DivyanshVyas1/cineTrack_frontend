@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
-import SettingsMenu from "../components/layout/SettingsMenu";
-import { useAuth } from "../hooks/useAuth";
+import SettingsMenu from "./SettingsMenu";
+import { useAuth } from "../../services/useAuth";
 
 const links = [
   { to: "/", label: "Feed" },

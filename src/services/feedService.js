@@ -1,4 +1,4 @@
-import client from "../api/client";
+import client from "./client";
 import { fetchTasteSuggestions } from "./userService";
 
 export const getHomeFeed = async (isAuthenticated = false) => {

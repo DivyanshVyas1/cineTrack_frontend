@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
-import { useAuth } from "../hooks/useAuth";
-import { getApiErrorMessage } from "../api/client";
+import { useAuth } from "../services/useAuth";
+import { getApiErrorMessage } from "../services/client";
 import { registerUser } from "../services/authService";
 
 const toastError = (message) => {

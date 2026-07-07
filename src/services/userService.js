@@ -1,4 +1,4 @@
-import client from "../api/client";
+import client from "./client";
 
 export const fetchProfile = async (username) => {
   const { data } = await client.get(`/users/${username}`);

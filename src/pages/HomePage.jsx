@@ -9,8 +9,8 @@ import {
   filterFeedPosts,
   filterFounderSuggestions,
   filterTrending,
-} from "../lib/filterByMedia";
-import { useAuth } from "../hooks/useAuth";
+} from "../utils/filterByMedia";
+import { useAuth } from "../services/useAuth";
 import { getHomeFeed } from "../services/feedService";
 
 function HomePage() {

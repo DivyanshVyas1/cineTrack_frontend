@@ -11,9 +11,9 @@ import AchievementsModal from "../components/profile/AchievementsModal";
 import FollowListModal from "../components/social/FollowListModal";
 import ProfileSectionContent from "../components/profile/ProfileSectionContent";
 import ProfileTabNav from "../components/profile/ProfileTabNav";
-import { useAuth } from "../hooks/useAuth";
-import { profilePanelTransition, profilePanelVariants } from "../lib/motion";
-import { PROFILE_SECTIONS, PROFILE_TABS } from "../lib/profileSections";
+import { useAuth } from "../services/useAuth";
+import { profilePanelTransition, profilePanelVariants } from "../utils/motion";
+import { PROFILE_SECTIONS, PROFILE_TABS } from "../utils/profileSections";
 import { fetchFollowRequests } from "../services/socialService";
 import { fetchCollection, fetchProfile, fetchAchievements } from "../services/userService";
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import PostOwnerToolbar from "../post/PostOwnerToolbar";
-import { buildTitleLink } from "../../lib/titleLink";
+import { buildTitleLink } from "../../utils/titleLink";
 
 function StarRating({ rating }) {
   const r = parseFloat(rating) || 0;

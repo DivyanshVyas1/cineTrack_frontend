@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-toastify";
-import { getApiErrorMessage } from "../../api/client";
+import { getApiErrorMessage } from "../../services/client";
 import { updateMyProfile } from "../../services/userService";
 import CharacterSearchField from "../search/CharacterSearchField";
 import Avatar from "../ui/Avatar";

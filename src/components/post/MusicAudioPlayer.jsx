@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import YouTube from "react-youtube";
-import { formatDuration } from "../../lib/titleLink";
+import { formatDuration } from "../../utils/titleLink";
 
 function MusicAudioPlayer({ src, durationSeconds = 0, className = "" }) {
   const [player, setPlayer] = useState(null);

@@ -1,4 +1,4 @@
-import client from "../api/client";
+import client from "./client";
 
 export const createPost = async (payload) => {
   const { data } = await client.post("/posts", payload);

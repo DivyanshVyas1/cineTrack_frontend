@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { toast } from "react-toastify";
-import { getApiErrorMessage } from "../../api/client";
+import { getApiErrorMessage } from "../../services/client";
 import { deletePost, togglePostFavorite } from "../../services/postService";
 import EditPostModal from "./EditPostModal";
 import Badge from "../ui/Badge";

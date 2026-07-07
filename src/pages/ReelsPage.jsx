@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import client from '../api/client';
+import client from '../services/client';
 import { toast } from 'react-toastify';
 import ReelsFeed from '../components/reels/ReelsFeed';
 import '../components/reels/reels.css';

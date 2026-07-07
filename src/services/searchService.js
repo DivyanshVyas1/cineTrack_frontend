@@ -1,4 +1,4 @@
-import client from "../api/client";
+import client from "./client";
 
 export const fetchSearchSuggestions = async (query, type) => {
   const { data } = await client.get("/search", {

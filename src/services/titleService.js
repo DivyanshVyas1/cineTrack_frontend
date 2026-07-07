@@ -1,4 +1,4 @@
-import client from "../api/client";
+import client from "./client";
 
 export const fetchTitleDetail = async ({ type, title, externalId }) => {
   const { data } = await client.get("/titles/detail", {

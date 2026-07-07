@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TitleSearchField from "../post/TitleSearchField";
-import { buildTitleLink } from "../../lib/titleLink";
+import { buildTitleLink } from "../../utils/titleLink";
 
 function MediaSearch() {
   const [mediaType, setMediaType] = useState("movie");

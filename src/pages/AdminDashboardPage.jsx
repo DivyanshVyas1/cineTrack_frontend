@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import client, { getApiErrorMessage } from "../api/client";
+import client, { getApiErrorMessage } from "../services/client";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 

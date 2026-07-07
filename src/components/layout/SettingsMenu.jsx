@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getApiErrorMessage } from "../../api/client";
-import { useAuth } from "../../hooks/useAuth";
+import { getApiErrorMessage } from "../../services/client";
+import { useAuth } from "../../services/useAuth";
 import { updatePrivacy } from "../../services/userService";
 import AchievementsModal from "../profile/AchievementsModal";
 

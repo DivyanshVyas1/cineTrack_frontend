@@ -10,9 +10,9 @@ import ProfileAddForm from "../components/profile/ProfileAddForm";
 
 import ReviewCard from "../components/profile/ReviewCard";
 
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../services/useAuth";
 
-import { getRateHeading, getMediaLabel } from "../lib/mediaLabels";
+import { getRateHeading, getMediaLabel } from "../utils/mediaLabels";
 
 import { fetchMovie, fetchMovieReviews } from "../services/movieService";
 

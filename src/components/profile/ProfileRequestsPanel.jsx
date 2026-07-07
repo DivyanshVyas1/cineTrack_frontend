@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-toastify";
-import { getApiErrorMessage } from "../../api/client";
+import { getApiErrorMessage } from "../../services/client";
 import Avatar from "../ui/Avatar";
 import {
   acceptFollowRequest,

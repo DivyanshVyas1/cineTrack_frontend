@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchAchievements } from "../../services/userService";
-import { ACHIEVEMENT_TRACKS, TIER_COLORS } from "../../lib/achievementsConfig";
+import { ACHIEVEMENT_TRACKS, TIER_COLORS } from "../../utils/achievementsConfig";
 
 const TIER_META = {
   bronze:  { label: "BRONZE",  emoji: "🥉", bg: "rgba(180,83,9,0.2)",   border: "rgba(180,83,9,0.5)" },

@@ -6,8 +6,8 @@ import {
   selectIsAuthenticated,
   setCredentials,
   updateUser,
-} from "../features/auth/authSlice";
-import client from "../api/client";
+} from "./authSlice";
+import client from "./client";
 
 export function useAuth() {
   const dispatch = useDispatch();

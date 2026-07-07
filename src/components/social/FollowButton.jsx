@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 
 import { toast } from "react-toastify";
 
-import { getApiErrorMessage } from "../../api/client";
+import { getApiErrorMessage } from "../../services/client";
 
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../services/useAuth";
 
 import { followUser, unfollowUser, cancelFollowRequest } from "../../services/socialService";
 

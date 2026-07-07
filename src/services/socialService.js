@@ -1,4 +1,4 @@
-import client from "../api/client";
+import client from "./client";
 
 export const toggleLike = async (postId) => {
   const { data } = await client.post(`/posts/${postId}/like`);

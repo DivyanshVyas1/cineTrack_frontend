@@ -1,6 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import { useLocation, useOutlet } from "react-router-dom";
-import PageTransition from "../components/animations/PageTransition";
+import PageTransition from "../animations/PageTransition";
 
 function AnimatedOutlet() {
   const location = useLocation();

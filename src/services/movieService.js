@@ -1,4 +1,4 @@
-import client from "../api/client";
+import client from "./client";
 
 export const searchMovies = async (search = "", type) => {
   const { data } = await client.get("/movies", { params: { search, limit: 8, type } });

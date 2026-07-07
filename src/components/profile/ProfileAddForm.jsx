@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { getApiErrorMessage } from "../../api/client";
+import { getApiErrorMessage } from "../../services/client";
 import TitleSearchField from "../post/TitleSearchField";
 import { createMovie } from "../../services/movieService";
 import { createPost } from "../../services/postService";

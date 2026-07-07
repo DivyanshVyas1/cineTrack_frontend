@@ -1,8 +1,8 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
-import client from "./api/client";
-import MainLayout from "./layouts/MainLayout";
-import AnimatedOutlet from "./layouts/AnimatedOutlet";
+import client from "./services/client";
+import MainLayout from "./components/layout/MainLayout";
+import AnimatedOutlet from "./components/layout/AnimatedOutlet";
 import HomePage from "./pages/HomePage";
 import DiscoverPage from "./pages/DiscoverPage";
 import PostPage from "./pages/PostPage";

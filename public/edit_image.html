@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Image Tool</title>
+  <style>
+    body { background: #111; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 40px; }
+    canvas { max-width: 100%; height: auto; border: 2px solid #333; margin-top: 20px; border-radius: 8px; }
+    button { background: #9333ea; color: white; padding: 12px 24px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 20px;}
+    button:hover { background: #7e22ce; }
+  </style>
+</head>
+<body>
+  <h2>Edited Image (14% Taste Match)</h2>
+  <p>Maine is image par code se 14% draw kar diya hai usi same resolution mein.</p>
+  <button id="downloadBtn">Download Edited JPEG</button>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    img.src = 'compareTaste.jpeg';
+    
+    img.onload = () => {
+      // Set canvas to exact original image size
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      
+      // Draw original image
+      ctx.drawImage(img, 0, 0);
+
+      // Setup coordinates for the pill badge
+      // In the provided image, the badge is exactly in the top middle under "VS"
+      const cx = canvas.width / 2;
+      const cy = canvas.height * 0.133; // 13.3% from top
+      const badgeW = canvas.width * 0.30; // 30% of image width
+      const badgeH = canvas.height * 0.026; // 2.6% of image height
+      
+      // Draw Pill Background (Dark color matching original)
+      ctx.fillStyle = '#171504';
+      ctx.beginPath();
+      // Draw rounded rectangle
+      ctx.roundRect(cx - badgeW/2, cy - badgeH/2, badgeW, badgeH, badgeH/2);
+      ctx.fill();
+      
+      // Draw Pill Border (Golden color)
+      ctx.strokeStyle = '#d9ab1e';
+      ctx.lineWidth = Math.max(1, canvas.width * 0.002);
+      ctx.stroke();
+      
+      // Draw Text "14% Taste Match"
+      ctx.fillStyle = '#d9ab1e';
+      const fontSize = badgeH * 0.65;
+      ctx.font = `600 ${fontSize}px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('14% Taste Match', cx, cy + (canvas.height*0.001)); // Slight y adjustment
+    };
+
+    // Download functionality
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.download = 'compareTaste_14_percent.jpeg';
+      link.href = canvas.toDataURL('image/jpeg', 0.95);
+      link.click();
+    });
+  </script>
+</body>
+</html>

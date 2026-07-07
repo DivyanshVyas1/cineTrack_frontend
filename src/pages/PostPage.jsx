@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import ProfileAddForm from "../components/profile/ProfileAddForm";
 import ProfileTabNav from "../components/profile/ProfileTabNav";
-import { useAuth } from "../hooks/useAuth";
-import { PROFILE_TABS, getMediaTypeForTab } from "../lib/profileSections";
+import { useAuth } from "../services/useAuth";
+import { PROFILE_TABS, getMediaTypeForTab } from "../utils/profileSections";
 
 const HEADINGS = {
   log: (label) => `Log a ${label}`,

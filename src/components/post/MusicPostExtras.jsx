@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { buildTitleLink } from "../../lib/titleLink";
+import { buildTitleLink } from "../../utils/titleLink";
 import MusicAudioPlayer from "./MusicAudioPlayer";
 import PostRatingBadge from "./PostRatingBadge";
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../services/useAuth";
 import TasteMatchSuggestions from "../feed/TasteMatchSuggestions";
 import { FILTERS } from "./MediaFilter";
 

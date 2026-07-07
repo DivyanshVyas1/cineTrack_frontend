@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import { buildTitleLink } from "../../lib/titleLink";
+import { buildTitleLink } from "../../utils/titleLink";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FollowButton from "../social/FollowButton";
 import Avatar from "../ui/Avatar";
-import { getGenreColor } from "../../lib/colors";
+import { getGenreColor } from "../../utils/colors";
 
 function RatingBadge({ rating }) {
   if (rating == null) return null;

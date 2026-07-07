@@ -2,18 +2,18 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-toastify";
-import { getApiErrorMessage } from "../../api/client";
-import { useAuth } from "../../hooks/useAuth";
+import { getApiErrorMessage } from "../../services/client";
+import { useAuth } from "../../services/useAuth";
 import Avatar from "../ui/Avatar";
 import Badge from "../ui/Badge";
 import FollowButton from "../social/FollowButton";
 import LikesModal from "../social/LikesModal";
 import PostOwnerToolbar from "../post/PostOwnerToolbar";
 import MusicPostExtras from "../post/MusicPostExtras";
-import { buildTitleLink } from "../../lib/titleLink";
+import { buildTitleLink } from "../../utils/titleLink";
 import PostRatingBadge from "../post/PostRatingBadge";
 import { toggleLike, fetchComments, postComment } from "../../services/socialService";
-import { getGenreColor } from "../../lib/colors";
+import { getGenreColor } from "../../utils/colors";
 
 const commentsTransition = { duration: 0.28, ease: [0.4, 0, 0.2, 1] };
 
