@@ -16,8 +16,8 @@ function LeftSidebar({
 
   return (
     <div className="left-sidebar-stack">
-      <div style={{ display: "flex", gap: "0.8rem", alignItems: "stretch", marginBottom: "0" }}>
-        <aside className="glass-card sidebar-filters-card" style={{ flex: 1, margin: 0, padding: "0.8rem", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <div style={{ display: "flex", gap: "0.8rem", alignItems: "stretch", marginBottom: "0", minWidth: 0 }}>
+        <aside className="glass-card sidebar-filters-card" style={{ flex: 1, margin: 0, padding: "0.8rem", display: "flex", flexDirection: "column", justifyContent: "center", minWidth: 0 }}>
           <div 
             className="sidebar-mobile-toggle" 
             onClick={() => setFiltersOpen(!filtersOpen)}
@@ -88,7 +88,8 @@ function LeftSidebar({
               textDecoration: "none",
               color: "var(--text)",
               fontWeight: "600",
-              padding: "0.8rem"
+              padding: "0.8rem",
+              minWidth: 0
             }}
           >
             About

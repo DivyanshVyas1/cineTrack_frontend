@@ -122,7 +122,7 @@ function UserFeedCard({ feedGroup }) {
       style={{ padding: "1.35rem", display: "flex", flexDirection: "column", gap: "1rem", minWidth: 0, overflow: "hidden" }}
     >
       {/* ── Header ── */}
-      <div style={{ display: "flex", alignItems: "center", gap: "0.85rem" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "0.85rem", minWidth: 0 }}>
         <Link to={`/profile/${user.username}`} style={{ flexShrink: 0, textDecoration: "none", position: "relative" }}>
           <div style={{
             position: "absolute", inset: "-2px", borderRadius: "0.8rem",

@@ -777,6 +777,7 @@
   display: grid;
   gap: 1rem;
   align-content: start;
+  min-width: 0;
   height: auto;
 }
 .sidebar-profile {

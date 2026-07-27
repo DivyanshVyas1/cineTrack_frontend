@@ -168,6 +168,7 @@ main {
   display: grid;
   gap: 1rem;
   align-content: start;
+  min-width: 0;
 }
 .feed-stack {
   display: grid;
@@ -178,6 +179,7 @@ main {
   display: grid;
   gap: 1rem;
   align-content: start;
+  min-width: 0;
 }
 .glass-card {
   background: var(--glass);
@@ -263,7 +265,7 @@ main {
 }
 @media (max-width: 1024px) {
   .three-col {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .three-col > .sidebar-card,
   .three-col > .panel-stack,
