@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import UserSearch from "../components/discover/UserSearch";
 import MediaSearch from "../components/discover/MediaSearch";
+import MagicSearch from "../components/discover/MagicSearch";
 import DiscoverTitleCard from "../components/discover/DiscoverTitleCard";
 import Badge from "../components/ui/Badge";
 import { fetchDiscoverSummary } from "../services/discoverService";
@@ -110,10 +111,15 @@ function DiscoverPage() {
   return (
     <div className="discover-page">
 
-      {/* ── SEARCH ROW ── */}
+      {/* ✨ AI MAGIC SEARCH ✨ */}
+      <div className="discover-span-full">
+        <MagicSearch />
+      </div>
+
+      {/* ✨ SEARCH ROW ✨ */}
       <div className="discover-grid-2" style={{ marginBottom: "2rem" }}>
-        <UserSearch />
         <MediaSearch />
+        <UserSearch />
       </div>
 
       {/* ── REELS BANNER ── */}

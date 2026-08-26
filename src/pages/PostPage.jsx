@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import ProfileAddForm from "../components/profile/ProfileAddForm";
 import ProfileTabNav from "../components/profile/ProfileTabNav";
+import MagicSearch from "../components/discover/MagicSearch";
 import { useAuth } from "../services/useAuth";
 import { PROFILE_TABS, getMediaTypeForTab } from "../utils/profileSections";
 
@@ -25,13 +26,7 @@ function PostPage() {
 
   return (
     <div className="post-page">
-      <section className="glass-card page-card post-page-header">
-        <h2>Post</h2>
-        <p className="sidebar-muted">
-          Log movies, web shows, books, or music and manage your watchlist. View your collection on{" "}
-          <Link to={`/profile/${user?.username}`} style={{ color: "#fff", fontWeight: "600", borderBottom: "1px solid rgba(255,255,255,0.4)", textDecoration: "none" }}>your profile</Link>.
-        </p>
-      </section>
+      <MagicSearch />
 
       <ProfileTabNav items={PROFILE_TABS} activeId={tab} onChange={setTab} variant="main" />
 
